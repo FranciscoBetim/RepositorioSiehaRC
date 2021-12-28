@@ -247,6 +247,7 @@ namespace SiehaRC
         public bool PesquisaSeExiste(string Tabela, string Coluna, string ValorColuna)
         {
             object[][] RetornoDaPesquisa = null;
+            string s = null;
             bool resultado = false;
             RetornoDaPesquisa = PesquisarOnde(Tabela, Coluna, Coluna, ValorColuna);
             if(RetornoDaPesquisa.Length>0)
