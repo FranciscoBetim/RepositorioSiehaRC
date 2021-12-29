@@ -18,14 +18,23 @@ namespace SiehaRC
         {
             InitializeComponent();
             banco = new BancoSqlServer(@"DESKTOP-NJSVS9Q\SQLEXPRESS", "SiehaEconomyCadastro", "Sieha", "123");
+            CarregaComboBoxSexo();
             CarregaComboBoxBuscaClientes();
         }
         private void CarregaComboBoxBuscaClientes()
         {
-            string combobox = "id,nome";
+            string combobox = "Nome,CPF,CNPJ,Telefone,Whatsapp";
             foreach(string nome in combobox.Split(','))
             {
                 TipoBuscaClientes.Items.Add(nome);
+            }
+        }
+        private void CarregaComboBoxSexo()
+        {
+            string combobox = "feminino,masculino";
+            foreach (string nome in combobox.Split(','))
+            {
+                SexoCadastro.Items.Add(nome);
             }
         }
         private void button1_Click(object sender, EventArgs e)
@@ -167,6 +176,10 @@ namespace SiehaRC
             string[] nomesDGV;
             string onde = TipoBuscaClientes.Text;
             string valor = ValorBuscaClientes.Text;
+
+            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
 
             banco.conectar();
             val = banco.PesquisarOnde("cadastro", CamposBanco, onde, valor);
