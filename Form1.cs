@@ -116,6 +116,7 @@ namespace SiehaRC
                             else
                             {
                                 MessageBox.Show("Erro ao cadastrar dados do equipamento do cliente.", "Erro!", MessageBoxButtons.OK);
+                                banco.DeleteOnde("cadastro", "id", (Convert.ToInt16(UltimoId[0]) + 1).ToString());
                             }
                         }
                         else
