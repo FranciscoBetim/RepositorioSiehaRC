@@ -177,9 +177,9 @@ namespace SiehaRC
             string onde = TipoBuscaClientes.Text;
             string valor = ValorBuscaClientes.Text;
 
-            dataGridView1.DataSource = null;
-            dataGridView1.Rows.Clear();
-            dataGridView1.Columns.Clear();
+            GradeDeBusca.DataSource = null;
+            GradeDeBusca.Rows.Clear();
+            GradeDeBusca.Columns.Clear();
 
             banco.conectar();
             val = banco.PesquisarOnde("cadastro", CamposBanco, onde, valor);
@@ -206,15 +206,15 @@ namespace SiehaRC
                 banco.desconectar();
 
                 nomesDGV = CamposBanco.Split(',');
-                dataGridView1.ColumnCount = nomesDGV.Length;
-                for (int ciclo = 0; ciclo < dataGridView1.ColumnCount; ciclo++)
+                GradeDeBusca.ColumnCount = nomesDGV.Length;
+                for (int ciclo = 0; ciclo < GradeDeBusca.ColumnCount; ciclo++)
                 {
-                    dataGridView1.Columns[ciclo].Width = (int)(690 / dataGridView1.ColumnCount);
-                    dataGridView1.Columns[ciclo].Name = nomesDGV[ciclo];
+                    GradeDeBusca.Columns[ciclo].Width = (int)(690 / GradeDeBusca.ColumnCount);
+                    GradeDeBusca.Columns[ciclo].Name = nomesDGV[ciclo];
                 }
                 foreach (object[] tab in val)
                 {
-                    dataGridView1.Rows.Add(tab);
+                    GradeDeBusca.Rows.Add(tab);
                 }
             }
             
@@ -224,13 +224,7 @@ namespace SiehaRC
         {
             if(PessoaFisicaChecked.Checked)
             {
-                CPFCadastro.Enabled = true;
-                PessoaFisicaChecked.Enabled = false;
-
-                CNPJCadastro.Enabled = false;
-                PessoaJuridicaChecked.Enabled = true;
-                PessoaJuridicaChecked.CheckState = CheckState.Unchecked;
-                RazaoSocialCadastro.Enabled = false;
+                PessoaFisicaClickConfigura();
             }
             
         }
@@ -239,15 +233,27 @@ namespace SiehaRC
         {
             if(PessoaJuridicaChecked.Checked)
             {
-                CPFCadastro.Enabled = false;
-                PessoaFisicaChecked.Enabled = true;
-                PessoaFisicaChecked.CheckState = CheckState.Unchecked;
-                CNPJCadastro.Enabled = true;
-                PessoaJuridicaChecked.Enabled = false;
-                RazaoSocialCadastro.Enabled = true;
+                PessoaJuridicaClickConfigura();
             }
         }
-
+        private void PessoaJuridicaClickConfigura()
+        {
+            CPFCadastro.Enabled = false;
+            PessoaFisicaChecked.Enabled = true;
+            PessoaFisicaChecked.CheckState = CheckState.Unchecked;
+            CNPJCadastro.Enabled = true;
+            PessoaJuridicaChecked.Enabled = false;
+            RazaoSocialCadastro.Enabled = true;
+        }
+        private void PessoaFisicaClickConfigura()
+        {
+            CPFCadastro.Enabled = true;
+            PessoaFisicaChecked.Enabled = false;
+            CNPJCadastro.Enabled = false;
+            PessoaJuridicaChecked.Enabled = true;
+            PessoaJuridicaChecked.CheckState = CheckState.Unchecked;
+            RazaoSocialCadastro.Enabled = false;
+        }
         public string VerificaBuscaCPFouCNPJ(object[][] pesquisa)
         {
             bool cpf = false;
@@ -285,6 +291,76 @@ namespace SiehaRC
 
         private void button4_Click(object sender, EventArgs e)
         {
+            
+        }
+
+        private void GradeDeBuscaDuploClickLinha(object sender, DataGridViewCellEventArgs e)
+        {
+            string valor = null;
+            string tipo = null;
+            string teste = null;
+            string pesquisa = null;
+            object[][] resultado = null;
+            
+            if(!GradeDeBusca.CurrentRow.IsNewRow) // inibe a ultima linha em branco de ser selecionada
+            {
+                teste = GradeDeBusca.CurrentRow.Cells[0].Value.ToString();
+                
+                if (teste == "NULL")
+                {
+                    valor = GradeDeBusca.CurrentRow.Cells[1].Value.ToString();
+                    tipo = "cnpj";
+                    pesquisa = "cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo";
+                }
+                else
+                {
+                    valor = GradeDeBusca.CurrentRow.Cells[0].Value.ToString();
+                    tipo = "cpf";
+                    pesquisa = "cpf,nome,telefone,whatsapp,email,endereço,sexo";
+                }
+
+                banco.conectar();
+                resultado = banco.PesquisarOnde("cadastro", pesquisa, tipo, valor);
+                banco.desconectar();
+
+                if (!EstaNullOuZero(resultado))
+                {
+                    if (tipo == "cpf")
+                    {
+                        CPFCadastro.Text         = resultado[0][0].ToString();
+                        CNPJCadastro.Text        = "";
+                        RazaoSocialCadastro.Text = "";
+                        NomeCadastro.Text        = resultado[0][1].ToString();
+                        TelefoneCadastro.Text    = resultado[0][2].ToString();
+                        WhatsAppCadastro.Text    = resultado[0][3].ToString();
+                        EmailCadastro.Text       = resultado[0][4].ToString();
+                        EndereçoCadastro.Text    = resultado[0][5].ToString();
+                        SexoCadastro.Text        = resultado[0][6].ToString();
+
+                        PessoaFisicaChecked.CheckState = CheckState.Checked;
+                        PessoaFisicaClickConfigura();
+                    }
+                    else
+                    {
+                        CPFCadastro.Text         = "";
+                        CNPJCadastro.Text        = resultado[0][0].ToString();
+                        RazaoSocialCadastro.Text = resultado[0][1].ToString();
+                        NomeCadastro.Text        = resultado[0][2].ToString();
+                        TelefoneCadastro.Text    = resultado[0][3].ToString();
+                        WhatsAppCadastro.Text    = resultado[0][4].ToString();
+                        EmailCadastro.Text       = resultado[0][5].ToString();
+                        EndereçoCadastro.Text    = resultado[0][6].ToString();
+                        SexoCadastro.Text        = resultado[0][7].ToString();
+
+                        PessoaJuridicaChecked.CheckState = CheckState.Checked;
+                        PessoaJuridicaClickConfigura();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Nao foi retornado nenhum valor", "Erro!", MessageBoxButtons.OK);
+                }
+            }
             
         }
     }

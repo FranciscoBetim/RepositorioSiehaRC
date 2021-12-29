@@ -49,6 +49,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button4 = new System.Windows.Forms.Button();
             this.RazaoSocialCadastro = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.CNPJCadastro = new System.Windows.Forms.TextBox();
@@ -74,7 +75,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.GradeDeBusca = new System.Windows.Forms.DataGridView();
             this.button3 = new System.Windows.Forms.Button();
             this.ValorBuscaClientes = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
@@ -82,7 +83,6 @@
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.TabServicos = new System.Windows.Forms.TabPage();
-            this.button4 = new System.Windows.Forms.Button();
             this.TabControle.SuspendLayout();
             this.TabCadastro.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -92,7 +92,7 @@
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GradeDeBusca)).BeginInit();
             this.SuspendLayout();
             // 
             // TabControle
@@ -313,6 +313,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1022, 189);
             this.panel1.TabIndex = 2;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(575, 4);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 25;
+            this.button4.Text = "button4";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // RazaoSocialCadastro
             // 
@@ -546,7 +556,7 @@
             // panel7
             // 
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel7.Controls.Add(this.dataGridView1);
+            this.panel7.Controls.Add(this.GradeDeBusca);
             this.panel7.Controls.Add(this.button3);
             this.panel7.Controls.Add(this.ValorBuscaClientes);
             this.panel7.Controls.Add(this.label18);
@@ -558,14 +568,15 @@
             this.panel7.Size = new System.Drawing.Size(1022, 249);
             this.panel7.TabIndex = 4;
             // 
-            // dataGridView1
+            // GradeDeBusca
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(10, 84);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(999, 151);
-            this.dataGridView1.TabIndex = 28;
+            this.GradeDeBusca.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GradeDeBusca.Location = new System.Drawing.Point(10, 84);
+            this.GradeDeBusca.Name = "GradeDeBusca";
+            this.GradeDeBusca.RowTemplate.Height = 24;
+            this.GradeDeBusca.Size = new System.Drawing.Size(999, 151);
+            this.GradeDeBusca.TabIndex = 28;
+            this.GradeDeBusca.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GradeDeBuscaDuploClickLinha);
             // 
             // button3
             // 
@@ -636,16 +647,6 @@
             this.TabServicos.Text = "Serviços";
             this.TabServicos.UseVisualStyleBackColor = true;
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(575, 4);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 25;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -670,7 +671,7 @@
             this.panel2.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GradeDeBusca)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -726,7 +727,7 @@
         private System.Windows.Forms.ComboBox TipoBuscaClientes;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView GradeDeBusca;
         private System.Windows.Forms.TextBox ValorServiçoCadastro;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Button button4;
