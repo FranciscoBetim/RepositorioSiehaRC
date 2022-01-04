@@ -276,7 +276,7 @@ namespace SiehaRC
 
             this.ComandoDaQuery = "DeleteLinha";
             this.UltimoComando = new SqlCommand();
-            procura = PesquisarEm("cadastro", "id");
+            procura = PesquisarOnde("cadastro", "id");
             this.UltimoComando.CommandText = "DELETE FROM " + Tabela + " WHERE id = " + procura[linha - 1][0].ToString();
             this.QueryDeEnvio = this.UltimoComando.CommandText;
             retorno = DeleteEm(Tabela, "Linha: " + linha);
@@ -365,7 +365,7 @@ namespace SiehaRC
                     ValAtualizar = Valor_a_Atualizar.Split(',');
                     for (int ciclo = 0; ciclo < Valor_a_Atualizar.Split(',').Length; ciclo++)
                     {
-                        Atualizar += ColAtualizar[ciclo] + " = '" + ValAtualizar[ciclo] + "', ";
+                        Atualizar += ColAtualizar[ciclo] + " = " + ValAtualizar[ciclo] + ", ";
                     }
                     Atualizar = Atualizar.Remove(Atualizar.LastIndexOf(','), 1);
 
@@ -378,8 +378,15 @@ namespace SiehaRC
                 this.RetornoDaQuery = Colunas_a_Atualizar;
                 if (VerificaNumerico(valor) && !VerificaCPForCNPJorTelefone(valor))
                 {
-                    this.UltimoComando.CommandText += " WHERE ROUND(" + onde + ",13) = " + valor + "";
-                    this.RetornoDaQuery += " || onde " + onde + " = " + valor + " ";
+                    if( (Convert.ToDouble(valor.Replace(".",",")) % 1) > 0 )
+                    {
+                        this.UltimoComando.CommandText += " WHERE ROUND(" + onde + ",13) = " + valor + " ";
+                    }
+                    else
+                    {
+                        this.UltimoComando.CommandText += " WHERE " + onde + " = '" + valor + "' ";
+                    }
+                    this.RetornoDaQuery += " || onde " + onde + " = '" + valor + "'";
                 }
                 else
                 {
@@ -425,7 +432,16 @@ namespace SiehaRC
         }
         private static bool VerificaCPForCNPJorTelefone(string s)
         {
-            long numero = Convert.ToInt64(s);
+            long numero;
+            if ( (Convert.ToDouble(s.Replace(".",",")) % 1)>0)
+            {
+                numero = 1;
+            }
+            else
+            {
+                numero = Convert.ToInt64(s);
+            }
+            
             return numero > 11111111;
         }
         
