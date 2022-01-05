@@ -226,6 +226,7 @@ namespace SiehaRC
 
             return (RetornoDaPesquisa);
         }
+        
         public object[] PesquisarUltimaLinha(string Tabela, string ColunasDaPesquisa)
         {
             object[][] RetornoDaPesquisa = null;
@@ -257,6 +258,43 @@ namespace SiehaRC
             return (resultado);
         }
 
+        public int PesquisarUltimoIdAutoIncremento(string Tabela)
+        {
+            int AutoIncremento = 0;
+            object[] RetornoDaPesquisa = new object[1];
+            SqlDataReader resposta;
+
+            this.ComandoDaQuery = "PegaUltimoAutoIncremento";
+            this.UltimoComando = new SqlCommand();
+            this.UltimoComando.CommandText = "SELECT IDENT_CURRENT('"+Tabela+"')" ;
+            this.QueryDeEnvio = this.UltimoComando.CommandText;
+            try
+            {
+                this.UltimoComando.Connection = this.UltimaConexao;
+                resposta = this.UltimoComando.ExecuteReader();
+                if (resposta.Read())
+                {
+                    resposta.GetValues(RetornoDaPesquisa);
+                    AutoIncremento = Convert.ToInt16(RetornoDaPesquisa[0]);
+                }
+                else
+                {
+
+                    AutoIncremento = -1;
+                    this.RetornoDaQuery = "(mensagemInternaSQL)-> Nao houve retorno de auto incremento!";
+                }
+                resposta.Close();
+            }
+            catch (SqlException erro)
+            {
+                this.UltimoErroSQL = erro;
+                this.RetornoDaQuery = "SqlException erro";
+                AutoIncremento = -1;
+            }
+
+            return (AutoIncremento);
+        }
+
         public bool DeleteTodosValoresDaTabela(string Tabela)
         {
             bool retorno = false;
@@ -276,7 +314,7 @@ namespace SiehaRC
 
             this.ComandoDaQuery = "DeleteLinha";
             this.UltimoComando = new SqlCommand();
-            procura = PesquisarOnde("cadastro", "id");
+            procura = PesquisarOnde(Tabela, "id");
             this.UltimoComando.CommandText = "DELETE FROM " + Tabela + " WHERE id = " + procura[linha - 1][0].ToString();
             this.QueryDeEnvio = this.UltimoComando.CommandText;
             retorno = DeleteEm(Tabela, "Linha: " + linha);

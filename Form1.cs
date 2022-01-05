@@ -42,7 +42,7 @@ namespace SiehaRC
             string[] CamposAInserir = new string[] { "cpf,cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo",
                                                      "idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
             string[] ValorCamposAInserir = new string[2];
-            object[] UltimoId;
+            int UltimoId;
             string estado;
             bool resultado = false;
             string Existe = null;
@@ -60,85 +60,93 @@ namespace SiehaRC
             {
                 if (PessoaFisicaChecked.Checked || PessoaJuridicaChecked.Checked)
                 {
-                    banco.conectar();
-                    if (PessoaFisicaChecked.Checked)
+                    if(!String.IsNullOrWhiteSpace(CPFCadastro.Text) || !String.IsNullOrWhiteSpace(CNPJCadastro.Text))
                     {
-                        ValorCamposAInserir[0] = "'"+CPFCadastro.Text      + "','" +
-                                                  "NULL"                + "','" +
-                                                  "NULL"                + "','" +
-                                                  NomeCadastro.Text     + "','" +
-                                                  TelefoneCadastro.Text + "','" +
-                                                  WhatsAppCadastro.Text + "','" +
-                                                  EmailCadastro.Text    + "','" +
-                                                  EndereçoCadastro.Text + "','" +
-                                                  SexoCadastro.Text     + "'";
-
-                        resultado = banco.PesquisaSeExiste("cadastro", "cpf", CPFCadastro.Text);
-                        Existe = "cpf";
-                        //   cpf,cnpj,razaosocial,nome,telefone,whatsap,endereço,sexo
-
-                    }
-                    else
-                    {
-                        ValorCamposAInserir[0] = "'"+"NULL"                    + "','" +
-                                                   CNPJCadastro.Text        + "','" +
-                                                   RazaoSocialCadastro.Text + "','" +
-                                                   NomeCadastro.Text        + "','" +
-                                                   TelefoneCadastro.Text    + "','" +
-                                                   WhatsAppCadastro.Text    + "','" +
-                                                   EmailCadastro.Text       + "','" +
-                                                   EndereçoCadastro.Text    + "','" +
-                                                   SexoCadastro.Text        +"'";
-
-                        resultado = banco.PesquisaSeExiste("cadastro", "cnpj", CNPJCadastro.Text);
-                        Existe = "cnpj";
-                    }
-
-                    if(!resultado)
-                    {
-                        if (EquipNovoCadastro.Checked)
+                        banco.conectar();
+                        if (PessoaFisicaChecked.Checked)
                         {
-                            estado = "NOVO";
+                            ValorCamposAInserir[0] = "'" + CPFCadastro.Text + "','" +
+                                                      "NULL" + "','" +
+                                                      "NULL" + "','" +
+                                                      NomeCadastro.Text + "','" +
+                                                      TelefoneCadastro.Text + "','" +
+                                                      WhatsAppCadastro.Text + "','" +
+                                                      EmailCadastro.Text + "','" +
+                                                      EndereçoCadastro.Text + "','" +
+                                                      SexoCadastro.Text + "'";
+
+                            resultado = banco.PesquisaSeExiste("cadastro", "cpf", CPFCadastro.Text);
+                            Existe = "cpf";
+                            //   cpf,cnpj,razaosocial,nome,telefone,whatsap,endereço,sexo
+
                         }
                         else
                         {
-                            estado = "USADO";
+                            ValorCamposAInserir[0] = "'" + "NULL" + "','" +
+                                                       CNPJCadastro.Text + "','" +
+                                                       RazaoSocialCadastro.Text + "','" +
+                                                       NomeCadastro.Text + "','" +
+                                                       TelefoneCadastro.Text + "','" +
+                                                       WhatsAppCadastro.Text + "','" +
+                                                       EmailCadastro.Text + "','" +
+                                                       EndereçoCadastro.Text + "','" +
+                                                       SexoCadastro.Text + "'";
+
+                            resultado = banco.PesquisaSeExiste("cadastro", "cnpj", CNPJCadastro.Text);
+                            Existe = "cnpj";
                         }
 
-                        UltimoId = banco.PesquisarUltimaLinha("cadastro", "id");
-
-                        ValorCamposAInserir[1] = "'" + (Convert.ToInt16(UltimoId[0])+1).ToString() + "','" +
-                                                       EquipamentoCadastro.Text                    + "','" +
-                                                       ValorCompraCadastro.Text.Replace(",",".")   + "','" +
-                                                       ValorServiçoCadastro.Text.Replace(",", ".") + "','" +
-                                                       estado                                      + "','" +
-                                                       EquipDefeitoCadastro.Text                   + "'";
-
-                        resultado = banco.InserirEm("cadastro", CamposAInserir[0], ValorCamposAInserir[0]);
-                        if (resultado)
+                        if (!resultado)
                         {
-                            resultado = banco.InserirEm("equipamento", CamposAInserir[1], ValorCamposAInserir[1]);
-                            if(resultado)
+                            if (EquipNovoCadastro.Checked)
                             {
-                                MessageBox.Show("Cliente cadastrado com sucesso!", @"SiehaR&C", MessageBoxButtons.OK);
+                                estado = "NOVO";
                             }
                             else
                             {
-                                MessageBox.Show("Erro ao cadastrar dados do equipamento do cliente.", "Erro!", MessageBoxButtons.OK);
-                                banco.DeleteOnde("cadastro", "id", (Convert.ToInt16(UltimoId[0]) + 1).ToString());
+                                estado = "USADO";
+                            }
+
+                            UltimoId = banco.PesquisarUltimoIdAutoIncremento("cadastro");
+
+                            ValorCamposAInserir[1] = "'" + (UltimoId + 1).ToString() + "','" +
+                                                           EquipamentoCadastro.Text + "','" +
+                                                           ValorCompraCadastro.Text.Replace(",", ".") + "','" +
+                                                           ValorServiçoCadastro.Text.Replace(",", ".") + "','" +
+                                                           estado + "','" +
+                                                           EquipDefeitoCadastro.Text + "'";
+
+                            resultado = banco.InserirEm("cadastro", CamposAInserir[0], ValorCamposAInserir[0]);
+                            if (resultado)
+                            {
+                                resultado = banco.InserirEm("equipamento", CamposAInserir[1], ValorCamposAInserir[1]);
+                                if (resultado)
+                                {
+                                    MessageBox.Show("Cliente cadastrado com sucesso!", @"SiehaR&C", MessageBoxButtons.OK);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Erro ao cadastrar dados do equipamento do cliente.", "Erro!", MessageBoxButtons.OK);
+                                    banco.DeleteOnde("cadastro", "id", (UltimoId + 1).ToString());
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Erro ao cadastrar o cliente.", "Erro!", MessageBoxButtons.OK);
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Erro ao cadastrar o cliente.", "Erro!", MessageBoxButtons.OK);
+                            MessageBox.Show("Ja existe um cadastro com este " + Existe + "!", "Erro!", MessageBoxButtons.OK);
                         }
+
+                        banco.desconectar();
                     }
                     else
                     {
-                        MessageBox.Show("Ja existe um cadastro com este " + Existe + "!", "Erro!", MessageBoxButtons.OK);
+                        MessageBox.Show("O Campo CPF ou CNPJ esta vazio!", "Erro!", MessageBoxButtons.OK);
                     }
-
-                    banco.desconectar();
+                    
                 }
                 else
                 {
@@ -294,9 +302,12 @@ namespace SiehaRC
 
         private void button4_Click(object sender, EventArgs e)
         {
+            
             banco.conectar();
-            banco.DeleteLinha("cadastro", 1);
+            banco.DeleteLinha(textBox1.Text, Convert.ToInt16(textBox2.Text));
             banco.desconectar();
+            
+
         }
 
         private void GradeDeBuscaDuploClickLinha(object sender, DataGridViewCellEventArgs e)
@@ -384,113 +395,80 @@ namespace SiehaRC
         {
             string[] CamposAInserir = new string[] { "cpf,cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo",
                                                      "idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
-            string[] ValorCamposAInserir = new string[2];
-            object[][] Id;
-            string estado;
+            string[] ValorCamposAInserir = new string[1];
             bool resultado = false;
             string Existe = null;
             string ValorExiste = null;
 
-            if (!String.IsNullOrWhiteSpace(NomeCadastro.Text) &&
+            if (!String.IsNullOrWhiteSpace(NomeCadastro.Text)    &&
                !String.IsNullOrWhiteSpace(TelefoneCadastro.Text) &&
                !String.IsNullOrWhiteSpace(WhatsAppCadastro.Text) &&
-               !String.IsNullOrWhiteSpace(EmailCadastro.Text) &&
+               !String.IsNullOrWhiteSpace(EmailCadastro.Text)    &&
                !String.IsNullOrWhiteSpace(EndereçoCadastro.Text) &&
-               !String.IsNullOrWhiteSpace(SexoCadastro.Text) &&
-               !String.IsNullOrWhiteSpace(EquipamentoCadastro.Text) &&
-               !String.IsNullOrWhiteSpace(ValorCompraCadastro.Text) &&
-               !String.IsNullOrWhiteSpace(ValorServiçoCadastro.Text) &&
-               (EquipNovoCadastro.Checked ^ EquipUsadoCadastro.Checked))
+               !String.IsNullOrWhiteSpace(SexoCadastro.Text) )
             {
                 if (PessoaFisicaChecked.Checked || PessoaJuridicaChecked.Checked)
                 {
-                    banco.conectar();
-                    if (PessoaFisicaChecked.Checked)
+                    if (!String.IsNullOrWhiteSpace(CPFCadastro.Text) || !String.IsNullOrWhiteSpace(CNPJCadastro.Text))
                     {
-                        ValorCamposAInserir[0] = "'" + CPFCadastro.Text + "','" +
-                                                  "NULL" + "','" +
-                                                  "NULL" + "','" +
-                                                  NomeCadastro.Text + "','" +
-                                                  TelefoneCadastro.Text + "','" +
-                                                  WhatsAppCadastro.Text + "','" +
-                                                  EmailCadastro.Text + "','" +
-                                                  EndereçoCadastro.Text + "','" +
-                                                  SexoCadastro.Text + "'";
-                        ValorExiste = CPFCadastro.Text;
-                        resultado = banco.PesquisaSeExiste("cadastro", "cpf", ValorExiste);
-                        Existe = "cpf";
-                        //   cpf,cnpj,razaosocial,nome,telefone,whatsap,endereço,sexo
-
-                    }
-                    else
-                    {
-                        ValorCamposAInserir[0] = "'" + "NULL" + "','" +
-                                                   CNPJCadastro.Text + "','" +
-                                                   RazaoSocialCadastro.Text + "','" +
-                                                   NomeCadastro.Text + "','" +
-                                                   TelefoneCadastro.Text + "','" +
-                                                   WhatsAppCadastro.Text + "','" +
-                                                   EmailCadastro.Text + "','" +
-                                                   EndereçoCadastro.Text + "','" +
-                                                   SexoCadastro.Text + "'";
-                        ValorExiste = CNPJCadastro.Text;
-                        resultado = banco.PesquisaSeExiste("cadastro", "cnpj", ValorExiste);
-                        Existe = "cnpj";
-                    }
-
-                    if (resultado)
-                    {
-                        if (EquipNovoCadastro.Checked)
+                        banco.conectar();
+                        if (PessoaFisicaChecked.Checked)
                         {
-                            estado = "NOVO";
+                            ValorCamposAInserir[0] = "'" + CPFCadastro.Text + "','" +
+                                                      "NULL" + "','" +
+                                                      "NULL" + "','" +
+                                                      NomeCadastro.Text + "','" +
+                                                      TelefoneCadastro.Text + "','" +
+                                                      WhatsAppCadastro.Text + "','" +
+                                                      EmailCadastro.Text + "','" +
+                                                      EndereçoCadastro.Text + "','" +
+                                                      SexoCadastro.Text + "'";
+                            ValorExiste = CPFCadastro.Text;
+                            resultado = banco.PesquisaSeExiste("cadastro", "cpf", ValorExiste);
+                            Existe = "cpf";
+                            //   cpf,cnpj,razaosocial,nome,telefone,whatsap,endereço,sexo
+
                         }
                         else
                         {
-                            estado = "USADO";
+                            ValorCamposAInserir[0] = "'" + "NULL" + "','" +
+                                                       CNPJCadastro.Text + "','" +
+                                                       RazaoSocialCadastro.Text + "','" +
+                                                       NomeCadastro.Text + "','" +
+                                                       TelefoneCadastro.Text + "','" +
+                                                       WhatsAppCadastro.Text + "','" +
+                                                       EmailCadastro.Text + "','" +
+                                                       EndereçoCadastro.Text + "','" +
+                                                       SexoCadastro.Text + "'";
+                            ValorExiste = CNPJCadastro.Text;
+                            resultado = banco.PesquisaSeExiste("cadastro", "cnpj", ValorExiste);
+                            Existe = "cnpj";
                         }
 
-                        if(Existe == "cpf")
-                        {
-                            Id = banco.PesquisarOnde("cadastro", "id","cpf", CPFCadastro.Text);
-                        }
-                        else
-                        {
-                            Id = banco.PesquisarOnde("cadastro", "id", "cnpj", CNPJCadastro.Text);
-                        }
-                        
-
-                        ValorCamposAInserir[1] = "'" + (Convert.ToInt16(Id[0][0])).ToString() + "','" +
-                                                       EquipamentoCadastro.Text + "','" +
-                                                       ValorCompraCadastro.Text.Replace(",", ".") + "','" +
-                                                       ValorServiçoCadastro.Text.Replace(",", ".") + "','" +
-                                                       estado + "','" +
-                                                       EquipDefeitoCadastro.Text + "'";
-
-                        resultado = banco.AtualizarOnde("cadastro", CamposAInserir[0], ValorCamposAInserir[0],Existe, ValorExiste);
                         if (resultado)
                         {
-                            resultado = banco.AtualizarOnde("equipamento", CamposAInserir[1], ValorCamposAInserir[1], "idcadastro", Convert.ToInt16(Id[0][0]).ToString());
+                            resultado = banco.AtualizarOnde("cadastro", CamposAInserir[0], ValorCamposAInserir[0], Existe, ValorExiste);
                             if (resultado)
                             {
                                 MessageBox.Show("Cliente atualizado com sucesso!", @"SiehaR&C", MessageBoxButtons.OK);
                             }
                             else
                             {
-                                MessageBox.Show("Erro ao atualizar dados do equipamento do cliente.", "Erro!", MessageBoxButtons.OK);
-                                banco.DeleteOnde("cadastro", "id", (Convert.ToInt16(Id[0][0]) + 1).ToString());
+                                MessageBox.Show("Erro ao atualizar o cliente.", "Erro!", MessageBoxButtons.OK);
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Erro ao atualizar o cliente.", "Erro!", MessageBoxButtons.OK);
+                            MessageBox.Show(@"Não existe um cadastro com este " + Existe + "!", "Erro!", MessageBoxButtons.OK);
                         }
+
+                        banco.desconectar();
                     }
                     else
                     {
-                        MessageBox.Show(@"Não existe um cadastro com este " + Existe + "!", "Erro!", MessageBoxButtons.OK);
+                        MessageBox.Show("O Campo CPF ou CNPJ esta vazio!", "Erro!", MessageBoxButtons.OK);
                     }
-
-                    banco.desconectar();
+                    
                 }
                 else
                 {
