@@ -52,7 +52,39 @@ namespace SiehaRC
             BtNovoServiços.Enabled = true;
             BtNovoServiços.BackColor = Color.Pink;
         }
-       
+        private void DesabilitarBotoesDeServiço()
+        {
+            BtNovoServiços.Enabled = false;
+            BtNovoServiços.BackColor = Color.Transparent;
+        }
+        private void HabilitaDadosDeCadastrodeDeServiço()
+        {
+            EquipamentoServiços.Enabled = true;
+            ValorCompraServiços.Enabled = true;
+            ValorServiçoServiços.Enabled = true;
+            EquipNovoServiços.Enabled = true;
+            EquipUsadoServiços.Enabled = true;
+            EquipDefeitoServiços.Enabled = true;
+        }
+        private void DesabilitarDadosDeCadastrodeDeServiço()
+        {
+            EquipamentoServiços.Enabled = true;
+            ValorCompraServiços.Enabled = true;
+            ValorServiçoServiços.Enabled = true;
+            EquipNovoServiços.Enabled = true;
+            EquipUsadoServiços.Enabled = true;
+            EquipDefeitoServiços.Enabled = true;
+        }
+        private void ApagaDadosDeCadastrodeDeServiço()
+        {
+            EquipamentoServiços.Text = "";
+            ValorCompraServiços.Text = "";
+            ValorServiçoServiços.Text = "";
+            EquipNovoServiços.Checked = false;
+            EquipUsadoServiços.Checked = false;
+            EquipDefeitoServiços.Text = "";
+        }
+
         private void BtSalvarCadastro_Click(object sender, EventArgs e)
         {
             string[] CamposAInserir = new string[] { "cpf,cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo",
@@ -72,6 +104,7 @@ namespace SiehaRC
                !String.IsNullOrWhiteSpace(EquipamentoCadastro.Text)  &&
                !String.IsNullOrWhiteSpace(ValorCompraCadastro.Text)  &&
                !String.IsNullOrWhiteSpace(ValorServiçoCadastro.Text) &&
+               !String.IsNullOrWhiteSpace(EquipDefeitoCadastro.Text) &&
                (EquipNovoCadastro.Checked ^ EquipUsadoCadastro.Checked))
             {
                 if (PessoaFisicaChecked.Checked || PessoaJuridicaChecked.Checked)
@@ -567,6 +600,7 @@ namespace SiehaRC
                     NomeClienteServiços.Text     = val[0][0].ToString();
                     EndereçoClienteServiços.Text = val[0][1].ToString();
                     HabilitaBotoesDeServiço();
+                    HabilitaDadosDeCadastrodeDeServiço();
                 }
                 else
                 {
@@ -583,7 +617,67 @@ namespace SiehaRC
 
         private void BtNovoServiços_Click(object sender, EventArgs e)
         {
+            string[] CamposAInserir = new string[] {"idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
+            string[] ValorCamposAInserir = new string[1];
+            string estado;
+            bool resultado = false;
+            string Existe = null;
 
+            if (!String.IsNullOrWhiteSpace(EquipamentoServiços.Text) &&
+               !String.IsNullOrWhiteSpace(ValorCompraServiços.Text) &&
+               !String.IsNullOrWhiteSpace(ValorServiçoServiços.Text) &&
+               !String.IsNullOrWhiteSpace(EquipDefeitoServiços.Text) &&
+               !String.IsNullOrWhiteSpace(IdClienteServiços.Text) &&
+               (EquipNovoServiços.Checked ^ EquipUsadoServiços.Checked))
+            {
+                
+                banco.conectar();
+                
+                resultado = banco.PesquisaSeExiste("cadastro", "id", IdClienteServiços.Text);
+                Existe = "Id";
+                if (resultado)
+                {
+                    if (EquipNovoServiços.Checked)
+                    {
+                        estado = "NOVO";
+                    }
+                    else
+                    {
+                        estado = "USADO";
+                    }
+                    
+                    ValorCamposAInserir[0] = "'" +  IdClienteServiços.Text + "','" +
+                                                    EquipamentoServiços.Text + "','" +
+                                                    ValorCompraServiços.Text.Replace(",", ".") + "','" +
+                                                    ValorServiçoServiços.Text.Replace(",", ".") + "','" +
+                                                    estado + "','" +
+                                                    EquipDefeitoServiços.Text + "'";
+
+                    
+                    resultado = banco.InserirEm("equipamento", CamposAInserir[0], ValorCamposAInserir[0]);
+                    if (resultado)
+                    {
+                        MessageBox.Show("Serviço cadastrado com sucesso!", @"SiehaR&C", MessageBoxButtons.OK);
+                        ApagaDadosDeCadastrodeDeServiço();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Erro ao cadastrar Serviço do cliente.", "Erro!", MessageBoxButtons.OK);
+                    }
+                   
+                }
+                else
+                {
+                    MessageBox.Show("Nao existe um cadastro com este " + Existe + "!", "Erro!", MessageBoxButtons.OK);
+                }
+
+                banco.desconectar();
+                
+            }
+            else
+            {
+                MessageBox.Show("Algum dado está em branco.", "Erro!", MessageBoxButtons.OK);
+            }
         }
     }
 }

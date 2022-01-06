@@ -105,19 +105,19 @@
             this.label36 = new System.Windows.Forms.Label();
             this.NomeClienteServiços = new System.Windows.Forms.TextBox();
             this.label35 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.ValorServiçoServiços = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.EquipDefeitoServiços = new System.Windows.Forms.RichTextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.BtNovoServiços = new System.Windows.Forms.Button();
             this.panel12 = new System.Windows.Forms.Panel();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.EquipUsadoServiços = new System.Windows.Forms.CheckBox();
             this.panel13 = new System.Windows.Forms.Panel();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.EquipNovoServiços = new System.Windows.Forms.CheckBox();
+            this.ValorCompraServiços = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.EquipamentoServiços = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.TabControle.SuspendLayout();
@@ -844,17 +844,17 @@
             this.panel11.Controls.Add(this.label36);
             this.panel11.Controls.Add(this.NomeClienteServiços);
             this.panel11.Controls.Add(this.label35);
-            this.panel11.Controls.Add(this.textBox6);
+            this.panel11.Controls.Add(this.ValorServiçoServiços);
             this.panel11.Controls.Add(this.label27);
             this.panel11.Controls.Add(this.button7);
-            this.panel11.Controls.Add(this.richTextBox2);
+            this.panel11.Controls.Add(this.EquipDefeitoServiços);
             this.panel11.Controls.Add(this.label28);
             this.panel11.Controls.Add(this.BtNovoServiços);
             this.panel11.Controls.Add(this.panel12);
             this.panel11.Controls.Add(this.panel13);
-            this.panel11.Controls.Add(this.textBox7);
+            this.panel11.Controls.Add(this.ValorCompraServiços);
             this.panel11.Controls.Add(this.label29);
-            this.panel11.Controls.Add(this.textBox8);
+            this.panel11.Controls.Add(this.EquipamentoServiços);
             this.panel11.Controls.Add(this.label30);
             this.panel11.Controls.Add(this.label31);
             this.panel11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -930,14 +930,14 @@
             this.label35.TabIndex = 27;
             this.label35.Text = "Nome cliente:";
             // 
-            // textBox6
+            // ValorServiçoServiços
             // 
-            this.textBox6.Enabled = false;
-            this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.textBox6.Location = new System.Drawing.Point(734, 109);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(118, 30);
-            this.textBox6.TabIndex = 26;
+            this.ValorServiçoServiços.Enabled = false;
+            this.ValorServiçoServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.ValorServiçoServiços.Location = new System.Drawing.Point(734, 109);
+            this.ValorServiçoServiços.Name = "ValorServiçoServiços";
+            this.ValorServiçoServiços.Size = new System.Drawing.Size(118, 30);
+            this.ValorServiçoServiços.TabIndex = 26;
             // 
             // label27
             // 
@@ -960,14 +960,14 @@
             this.button7.Text = "Atualizar";
             this.button7.UseVisualStyleBackColor = true;
             // 
-            // richTextBox2
+            // EquipDefeitoServiços
             // 
-            this.richTextBox2.Enabled = false;
-            this.richTextBox2.Location = new System.Drawing.Point(11, 148);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(999, 96);
-            this.richTextBox2.TabIndex = 23;
-            this.richTextBox2.Text = "";
+            this.EquipDefeitoServiços.Enabled = false;
+            this.EquipDefeitoServiços.Location = new System.Drawing.Point(11, 148);
+            this.EquipDefeitoServiços.Name = "EquipDefeitoServiços";
+            this.EquipDefeitoServiços.Size = new System.Drawing.Size(999, 96);
+            this.EquipDefeitoServiços.TabIndex = 23;
+            this.EquipDefeitoServiços.Text = "";
             // 
             // label28
             // 
@@ -994,53 +994,53 @@
             // panel12
             // 
             this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel12.Controls.Add(this.checkBox3);
+            this.panel12.Controls.Add(this.EquipUsadoServiços);
             this.panel12.Location = new System.Drawing.Point(932, 76);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(78, 32);
             this.panel12.TabIndex = 20;
             // 
-            // checkBox3
+            // EquipUsadoServiços
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Enabled = false;
-            this.checkBox3.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox3.Location = new System.Drawing.Point(3, 5);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(74, 23);
-            this.checkBox3.TabIndex = 15;
-            this.checkBox3.Text = "Usado";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.EquipUsadoServiços.AutoSize = true;
+            this.EquipUsadoServiços.Enabled = false;
+            this.EquipUsadoServiços.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EquipUsadoServiços.Location = new System.Drawing.Point(3, 5);
+            this.EquipUsadoServiços.Name = "EquipUsadoServiços";
+            this.EquipUsadoServiços.Size = new System.Drawing.Size(74, 23);
+            this.EquipUsadoServiços.TabIndex = 15;
+            this.EquipUsadoServiços.Text = "Usado";
+            this.EquipUsadoServiços.UseVisualStyleBackColor = true;
             // 
             // panel13
             // 
             this.panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel13.Controls.Add(this.checkBox4);
+            this.panel13.Controls.Add(this.EquipNovoServiços);
             this.panel13.Location = new System.Drawing.Point(858, 76);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(76, 32);
             this.panel13.TabIndex = 19;
             // 
-            // checkBox4
+            // EquipNovoServiços
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Enabled = false;
-            this.checkBox4.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox4.Location = new System.Drawing.Point(2, 4);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(68, 23);
-            this.checkBox4.TabIndex = 16;
-            this.checkBox4.Text = "Novo";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.EquipNovoServiços.AutoSize = true;
+            this.EquipNovoServiços.Enabled = false;
+            this.EquipNovoServiços.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EquipNovoServiços.Location = new System.Drawing.Point(2, 4);
+            this.EquipNovoServiços.Name = "EquipNovoServiços";
+            this.EquipNovoServiços.Size = new System.Drawing.Size(68, 23);
+            this.EquipNovoServiços.TabIndex = 16;
+            this.EquipNovoServiços.Text = "Novo";
+            this.EquipNovoServiços.UseVisualStyleBackColor = true;
             // 
-            // textBox7
+            // ValorCompraServiços
             // 
-            this.textBox7.Enabled = false;
-            this.textBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.textBox7.Location = new System.Drawing.Point(734, 76);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(118, 30);
-            this.textBox7.TabIndex = 6;
+            this.ValorCompraServiços.Enabled = false;
+            this.ValorCompraServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.ValorCompraServiços.Location = new System.Drawing.Point(734, 76);
+            this.ValorCompraServiços.Name = "ValorCompraServiços";
+            this.ValorCompraServiços.Size = new System.Drawing.Size(118, 30);
+            this.ValorCompraServiços.TabIndex = 6;
             // 
             // label29
             // 
@@ -1052,14 +1052,14 @@
             this.label29.TabIndex = 5;
             this.label29.Text = "Valor de compra(R$):";
             // 
-            // textBox8
+            // EquipamentoServiços
             // 
-            this.textBox8.Enabled = false;
-            this.textBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.textBox8.Location = new System.Drawing.Point(130, 76);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(414, 30);
-            this.textBox8.TabIndex = 4;
+            this.EquipamentoServiços.Enabled = false;
+            this.EquipamentoServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.EquipamentoServiços.Location = new System.Drawing.Point(130, 76);
+            this.EquipamentoServiços.Name = "EquipamentoServiços";
+            this.EquipamentoServiços.Size = new System.Drawing.Size(414, 30);
+            this.EquipamentoServiços.TabIndex = 4;
             // 
             // label30
             // 
@@ -1188,19 +1188,19 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Panel panel11;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox ValorServiçoServiços;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox EquipDefeitoServiços;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Button BtNovoServiços;
         private System.Windows.Forms.Panel panel12;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox EquipUsadoServiços;
         private System.Windows.Forms.Panel panel13;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.CheckBox EquipNovoServiços;
+        private System.Windows.Forms.TextBox ValorCompraServiços;
         private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox EquipamentoServiços;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TextBox NomeClienteServiços;
