@@ -20,6 +20,7 @@ namespace SiehaRC
             banco = new BancoSqlServer(@"DESKTOP-NJSVS9Q\SQLEXPRESS", "SiehaEconomyCadastro", "Sieha", "123");
             CarregaComboBoxSexo();
             CarregaComboBoxBuscaClientes();
+            CarregaComboBoxBuscaServiços();
         }
         private void CarregaComboBoxBuscaClientes()
         {
@@ -27,6 +28,14 @@ namespace SiehaRC
             foreach(string nome in combobox.Split(','))
             {
                 TipoBuscaClientes.Items.Add(nome);
+            }
+        }
+        private void CarregaComboBoxBuscaServiços()
+        {
+            string combobox = "Nome,CPF,CNPJ,Telefone,Whatsapp";
+            foreach (string nome in combobox.Split(','))
+            {
+                TipoBuscaServiços.Items.Add(nome);
             }
         }
         private void CarregaComboBoxSexo()
@@ -478,6 +487,55 @@ namespace SiehaRC
             else
             {
                 MessageBox.Show("Algum dado está em branco.", "Erro!", MessageBoxButtons.OK);
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            object[][] Cadastro,serviço,Mix = null;
+            string[] CamposBanco = new string[] { "id,nome,endereço" ,"equipamento", "id,equipamento,nome,endereço" };
+            string[] nomesDGV;
+            string onde = TipoBuscaServiços.Text;
+            string valor = ValorBuscaServiços.Text;
+            List<object[]> lista = new List<object[]>();
+
+            GradeDeBusca.DataSource = null;
+            GradeDeBusca.Rows.Clear();
+            GradeDeBusca.Columns.Clear();
+
+            banco.conectar();
+            Cadastro = banco.PesquisarOnde("cadastro", CamposBanco[0], onde, valor);
+            banco.desconectar();
+
+
+            if (!EstaNullOuZero(Cadastro))
+            {
+               
+
+                //id,equipamento,nome,endereço
+                banco.conectar();
+                serviço = banco.PesquisarOnde("equipamento", CamposBanco[1], "idcadastro", Convert.ToString(Cadastro[0][0]));
+                banco.desconectar();
+                
+                foreach (object[] val in serviço)
+                {
+                    object[] Condicionamento = new object[] { Cadastro[0][0],val[0],Cadastro[0][1], Cadastro[0][2]} ;
+                    lista.Add(Condicionamento);
+                }
+                Mix = lista.ToArray();
+
+                /*nomesDGV = CamposBanco.Split(',');
+                GradeDeBusca.ColumnCount = nomesDGV.Length;
+                for (int ciclo = 0; ciclo < GradeDeBusca.ColumnCount; ciclo++)
+                {
+                    GradeDeBusca.Columns[ciclo].Width = (int)(690 / GradeDeBusca.ColumnCount);
+                    GradeDeBusca.Columns[ciclo].Name = nomesDGV[ciclo];
+                }
+                */
+                foreach (object[] tab in Mix)
+                {
+                    GradeDeBusca.Rows.Add(tab);
+                }
             }
         }
     }
