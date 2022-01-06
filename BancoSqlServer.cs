@@ -137,8 +137,15 @@ namespace SiehaRC
                 {
                     if (VerificaNumerico(valor) && !VerificaCPForCNPJorTelefone(valor))
                     {
-                        this.UltimoComando.CommandText += " WHERE ROUND(" + onde + ",13) = " + valor + "";
-                        this.RetornoDaQuery += " || onde " + onde + " = " + valor + " ";
+                        if ((Convert.ToDouble(valor.Replace(".", ",")) % 1) > 0)
+                        {
+                            this.UltimoComando.CommandText += " WHERE ROUND(" + onde + ",13) = " + valor + " ";
+                        }
+                        else
+                        {
+                            this.UltimoComando.CommandText += " WHERE " + onde + " = '" + valor + "' ";
+                        }
+                        this.RetornoDaQuery += " || onde " + onde + " = '" + valor + "'";
                     }
                     else
                     {

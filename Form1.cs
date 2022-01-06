@@ -21,6 +21,7 @@ namespace SiehaRC
             CarregaComboBoxSexo();
             CarregaComboBoxBuscaClientes();
             CarregaComboBoxBuscaServiços();
+
         }
         private void CarregaComboBoxBuscaClientes()
         {
@@ -46,7 +47,13 @@ namespace SiehaRC
                 SexoCadastro.Items.Add(nome);
             }
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void HabilitaBotoesDeServiço()
+        {
+            BtNovoServiços.Enabled = true;
+            BtNovoServiços.BackColor = Color.Pink;
+        }
+       
+        private void BtSalvarCadastro_Click(object sender, EventArgs e)
         {
             string[] CamposAInserir = new string[] { "cpf,cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo",
                                                      "idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
@@ -185,18 +192,18 @@ namespace SiehaRC
             }
             return(retorno);
         }
-
-        private void button3_Click(object sender, EventArgs e)
+       
+        private void BtBuscarCadastro_Click(object sender, EventArgs e)
         {
             object[][] val;
-            string CamposBanco = "cpf,nome,endereço";
+            string CamposBanco = "id,cpf,nome,endereço";
             string[] nomesDGV;
             string onde = TipoBuscaClientes.Text;
             string valor = ValorBuscaClientes.Text;
 
-            GradeDeBusca.DataSource = null;
-            GradeDeBusca.Rows.Clear();
-            GradeDeBusca.Columns.Clear();
+            GradeDeBuscaClientes.DataSource = null;
+            GradeDeBuscaClientes.Rows.Clear();
+            GradeDeBuscaClientes.Columns.Clear();
 
             banco.conectar();
             val = banco.PesquisarOnde("cadastro", CamposBanco, onde, valor);
@@ -207,13 +214,13 @@ namespace SiehaRC
             {
                 if(VerificaBuscaCPFouCNPJ(val) == "CPFeCNPJ")
                 {
-                    CamposBanco = "cpf,cnpj,nome,endereço";
+                    CamposBanco = "id,cpf,cnpj,nome,endereço";
                 }
                 else
                 {
                     if(VerificaBuscaCPFouCNPJ(val) == "CNPJ")
                     {
-                        CamposBanco = "cnpj,nome,endereço";
+                        CamposBanco = "id,cnpj,nome,endereço";
                     }
                 }
                 
@@ -223,15 +230,15 @@ namespace SiehaRC
                 banco.desconectar();
 
                 nomesDGV = CamposBanco.Split(',');
-                GradeDeBusca.ColumnCount = nomesDGV.Length;
-                for (int ciclo = 0; ciclo < GradeDeBusca.ColumnCount; ciclo++)
+                GradeDeBuscaClientes.ColumnCount = nomesDGV.Length;
+                for (int ciclo = 0; ciclo < GradeDeBuscaClientes.ColumnCount; ciclo++)
                 {
-                    GradeDeBusca.Columns[ciclo].Width = (int)(690 / GradeDeBusca.ColumnCount);
-                    GradeDeBusca.Columns[ciclo].Name = nomesDGV[ciclo];
+                    GradeDeBuscaClientes.Columns[ciclo].Width = (int)(690 / GradeDeBuscaClientes.ColumnCount);
+                    GradeDeBuscaClientes.Columns[ciclo].Name = nomesDGV[ciclo];
                 }
                 foreach (object[] tab in val)
                 {
-                    GradeDeBusca.Rows.Add(tab);
+                    GradeDeBuscaClientes.Rows.Add(tab);
                 }
             }
             
@@ -281,7 +288,7 @@ namespace SiehaRC
             string resultado = null;
             foreach(object[] val in pesquisa)
             {
-                if(val[0].ToString() == "NULL")
+                if(val[1].ToString() == "NULL")
                 {
                     cnpj = true;
                 }
@@ -318,89 +325,9 @@ namespace SiehaRC
             
 
         }
+        
 
-        private void GradeDeBuscaDuploClickLinha(object sender, DataGridViewCellEventArgs e)
-        {
-            string valor = null;
-            string tipo = null;
-            string testelinha = null;
-            string testecoluna = null;
-            string pesquisa = null;
-            object[][] resultado = null;
-            
-            if(!GradeDeBusca.CurrentRow.IsNewRow) // inibe a ultima linha em branco de ser selecionada
-            {
-                testelinha = GradeDeBusca.CurrentRow.Cells[0].Value.ToString();
-                testecoluna = GradeDeBusca.Columns[0].Name;
-                if (testecoluna == "cnpj")
-                {
-                    valor = GradeDeBusca.CurrentRow.Cells[0].Value.ToString();
-                    tipo = "cnpj";
-                    pesquisa = "cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo";
-                }
-                else
-                {
-                    if(testelinha == "NULL")
-                    {
-                        valor = GradeDeBusca.CurrentRow.Cells[1].Value.ToString();
-                        tipo = "cnpj";
-                        pesquisa = "cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo";
-                    }
-                    else
-                    {
-                        valor = GradeDeBusca.CurrentRow.Cells[0].Value.ToString();
-                        tipo = "cpf";
-                        pesquisa = "cpf,nome,telefone,whatsapp,email,endereço,sexo";
-                    }
-                    
-                }
-
-                banco.conectar();
-                resultado = banco.PesquisarOnde("cadastro", pesquisa, tipo, valor);
-                banco.desconectar();
-
-                if (!EstaNullOuZero(resultado))
-                {
-                    if (tipo == "cpf")
-                    {
-                        CPFCadastro.Text         = resultado[0][0].ToString();
-                        CNPJCadastro.Text        = "";
-                        RazaoSocialCadastro.Text = "";
-                        NomeCadastro.Text        = resultado[0][1].ToString();
-                        TelefoneCadastro.Text    = resultado[0][2].ToString();
-                        WhatsAppCadastro.Text    = resultado[0][3].ToString();
-                        EmailCadastro.Text       = resultado[0][4].ToString();
-                        EndereçoCadastro.Text    = resultado[0][5].ToString();
-                        SexoCadastro.Text        = resultado[0][6].ToString();
-
-                        PessoaFisicaChecked.CheckState = CheckState.Checked;
-                        PessoaFisicaClickConfigura();
-                    }
-                    else
-                    {
-                        CPFCadastro.Text         = "";
-                        CNPJCadastro.Text        = resultado[0][0].ToString();
-                        RazaoSocialCadastro.Text = resultado[0][1].ToString();
-                        NomeCadastro.Text        = resultado[0][2].ToString();
-                        TelefoneCadastro.Text    = resultado[0][3].ToString();
-                        WhatsAppCadastro.Text    = resultado[0][4].ToString();
-                        EmailCadastro.Text       = resultado[0][5].ToString();
-                        EndereçoCadastro.Text    = resultado[0][6].ToString();
-                        SexoCadastro.Text        = resultado[0][7].ToString();
-
-                        PessoaJuridicaChecked.CheckState = CheckState.Checked;
-                        PessoaJuridicaClickConfigura();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Nao foi retornado nenhum valor", "Erro!", MessageBoxButtons.OK);
-                }
-            }
-            
-        }
-
-        private void button2_Click(object sender, EventArgs e)
+        private void BtAtualizarCadastro_Click(object sender, EventArgs e)
         {
             string[] CamposAInserir = new string[] { "cpf,cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo",
                                                      "idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
@@ -493,50 +420,170 @@ namespace SiehaRC
         private void button9_Click(object sender, EventArgs e)
         {
             object[][] Cadastro,serviço,Mix = null;
-            string[] CamposBanco = new string[] { "id,nome,endereço" ,"equipamento", "id,equipamento,nome,endereço" };
+            string[] CamposBanco = new string[] { "id,nome,endereço" ,"id,equipamento", "IdCliente,IdServiço,equipamento,nome,endereço" };
             string[] nomesDGV;
             string onde = TipoBuscaServiços.Text;
             string valor = ValorBuscaServiços.Text;
             List<object[]> lista = new List<object[]>();
 
-            GradeDeBusca.DataSource = null;
-            GradeDeBusca.Rows.Clear();
-            GradeDeBusca.Columns.Clear();
+            GradeDeBuscaServiços.DataSource = null;
+            GradeDeBuscaServiços.Rows.Clear();
+            GradeDeBuscaServiços.Columns.Clear();
 
             banco.conectar();
             Cadastro = banco.PesquisarOnde("cadastro", CamposBanco[0], onde, valor);
             banco.desconectar();
 
-
-            if (!EstaNullOuZero(Cadastro))
+            foreach(object[] cad in Cadastro)
             {
-               
+                if (!EstaNullOuZero(Cadastro))
+                {
 
-                //id,equipamento,nome,endereço
-                banco.conectar();
-                serviço = banco.PesquisarOnde("equipamento", CamposBanco[1], "idcadastro", Convert.ToString(Cadastro[0][0]));
-                banco.desconectar();
-                
-                foreach (object[] val in serviço)
-                {
-                    object[] Condicionamento = new object[] { Cadastro[0][0],val[0],Cadastro[0][1], Cadastro[0][2]} ;
-                    lista.Add(Condicionamento);
-                }
-                Mix = lista.ToArray();
 
-                /*nomesDGV = CamposBanco.Split(',');
-                GradeDeBusca.ColumnCount = nomesDGV.Length;
-                for (int ciclo = 0; ciclo < GradeDeBusca.ColumnCount; ciclo++)
-                {
-                    GradeDeBusca.Columns[ciclo].Width = (int)(690 / GradeDeBusca.ColumnCount);
-                    GradeDeBusca.Columns[ciclo].Name = nomesDGV[ciclo];
-                }
-                */
-                foreach (object[] tab in Mix)
-                {
-                    GradeDeBusca.Rows.Add(tab);
+                    //id,equipamento,nome,endereço
+                    banco.conectar();
+                    serviço = banco.PesquisarOnde("equipamento", CamposBanco[1], "idcadastro", Convert.ToString(cad[0]));
+                    banco.desconectar();
+                    lista.Clear();
+                    foreach (object[] serv in serviço)
+                    {
+                        object[] Condicionamento = new object[] { cad[0], serv[0],serv[1], cad[1], cad[2] };
+                        lista.Add(Condicionamento);
+                    }
+                    Mix = lista.ToArray();
+
+                    nomesDGV = CamposBanco[2].Split(',');
+                    GradeDeBuscaServiços.ColumnCount = nomesDGV.Length;
+                    for (int ciclo = 0; ciclo < GradeDeBuscaServiços.ColumnCount; ciclo++)
+                    {
+                        GradeDeBuscaServiços.Columns[ciclo].Width = (int)(690 / GradeDeBuscaServiços.ColumnCount);
+                        GradeDeBuscaServiços.Columns[ciclo].Name = nomesDGV[ciclo];
+                    }
+                    
+                    foreach (object[] tab in Mix)
+                    {
+                        GradeDeBuscaServiços.Rows.Add(tab);
+                    }
                 }
             }
+           
+        }
+        private void GradeDeBuscaClientesDuploClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string valor = null;
+            string tipo = null;
+            string testelinha = null;
+            string testecoluna = null;
+            string pesquisa = null;
+            object[][] resultado = null;
+
+            if (!GradeDeBuscaClientes.CurrentRow.IsNewRow) // inibe a ultima linha em branco de ser selecionada
+            {
+                testelinha = GradeDeBuscaClientes.CurrentRow.Cells[0].Value.ToString();
+                testecoluna = GradeDeBuscaClientes.Columns[0].Name;
+                if (testecoluna == "cnpj")
+                {
+                    valor = GradeDeBuscaClientes.CurrentRow.Cells[0].Value.ToString();
+                    tipo = "cnpj";
+                    pesquisa = "cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo";
+                }
+                else
+                {
+                    if (testelinha == "NULL")
+                    {
+                        valor = GradeDeBuscaClientes.CurrentRow.Cells[1].Value.ToString();
+                        tipo = "cnpj";
+                        pesquisa = "cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo";
+                    }
+                    else
+                    {
+                        valor = GradeDeBuscaClientes.CurrentRow.Cells[0].Value.ToString();
+                        tipo = "cpf";
+                        pesquisa = "cpf,nome,telefone,whatsapp,email,endereço,sexo";
+                    }
+
+                }
+
+                banco.conectar();
+                resultado = banco.PesquisarOnde("cadastro", pesquisa, tipo, valor);
+                banco.desconectar();
+
+                if (!EstaNullOuZero(resultado))
+                {
+                    if (tipo == "cpf")
+                    {
+                        CPFCadastro.Text = resultado[0][0].ToString();
+                        CNPJCadastro.Text = "";
+                        RazaoSocialCadastro.Text = "";
+                        NomeCadastro.Text = resultado[0][1].ToString();
+                        TelefoneCadastro.Text = resultado[0][2].ToString();
+                        WhatsAppCadastro.Text = resultado[0][3].ToString();
+                        EmailCadastro.Text = resultado[0][4].ToString();
+                        EndereçoCadastro.Text = resultado[0][5].ToString();
+                        SexoCadastro.Text = resultado[0][6].ToString();
+
+                        PessoaFisicaChecked.CheckState = CheckState.Checked;
+                        PessoaFisicaClickConfigura();
+                    }
+                    else
+                    {
+                        CPFCadastro.Text = "";
+                        CNPJCadastro.Text = resultado[0][0].ToString();
+                        RazaoSocialCadastro.Text = resultado[0][1].ToString();
+                        NomeCadastro.Text = resultado[0][2].ToString();
+                        TelefoneCadastro.Text = resultado[0][3].ToString();
+                        WhatsAppCadastro.Text = resultado[0][4].ToString();
+                        EmailCadastro.Text = resultado[0][5].ToString();
+                        EndereçoCadastro.Text = resultado[0][6].ToString();
+                        SexoCadastro.Text = resultado[0][7].ToString();
+
+                        PessoaJuridicaChecked.CheckState = CheckState.Checked;
+                        PessoaJuridicaClickConfigura();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Nao foi retornado nenhum valor", "Erro!", MessageBoxButtons.OK);
+                }
+            }
+
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            object[][] val;
+            string CamposBanco = "nome,endereço";
+            string onde = "id";
+            string valor = IdClienteServiços.Text;
+            
+            if(!String.IsNullOrEmpty(valor))
+            {
+                banco.conectar();
+                val = banco.PesquisarOnde("cadastro", CamposBanco, onde, valor);
+                banco.desconectar();
+
+                if (!EstaNullOuZero(val))
+                {
+                    NomeClienteServiços.Text     = val[0][0].ToString();
+                    EndereçoClienteServiços.Text = val[0][1].ToString();
+                    HabilitaBotoesDeServiço();
+                }
+                else
+                {
+                    MessageBox.Show(banco.retornoDaQuery, "Erro!", MessageBoxButtons.OK);
+                }
+                
+            }
+            else
+            {
+                MessageBox.Show("O id nao pode estar vazio!", "Erro!", MessageBoxButtons.OK);
+            }
+            
+        }
+
+        private void BtNovoServiços_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
