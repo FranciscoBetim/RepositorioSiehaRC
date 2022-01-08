@@ -47,17 +47,17 @@ namespace SiehaRC
                 SexoCadastro.Items.Add(nome);
             }
         }
-        private void HabilitaBotoesDeServiço()
+        private void HabilitarBotaoNovoServiços()
         {
             BtNovoServiços.Enabled = true;
             BtNovoServiços.BackColor = Color.Pink;
         }
-        private void DesabilitarBotoesDeServiço()
+        private void DesabilitarBotaoNovoServiços()
         {
             BtNovoServiços.Enabled = false;
             BtNovoServiços.BackColor = Color.Transparent;
         }
-        private void HabilitaDadosDeCadastrodeDeServiço()
+        private void HabilitarDadosDeCadastrodeDeServiço()
         {
             EquipamentoServiços.Enabled = true;
             ValorCompraServiços.Enabled = true;
@@ -74,6 +74,16 @@ namespace SiehaRC
             EquipNovoServiços.Enabled = true;
             EquipUsadoServiços.Enabled = true;
             EquipDefeitoServiços.Enabled = true;
+        }
+        private void HabilitarBotaoAtualizarServiços()
+        {
+            BtAtualizarServiços.Enabled = true;
+            BtAtualizarServiços.BackColor = Color.Pink;
+        }
+        private void DesabilitarBotaoAtualizarServiços()
+        {
+            BtAtualizarServiços.Enabled = false;
+            BtAtualizarServiços.BackColor = Color.Transparent;
         }
         private void ApagaDadosDeCadastrodeDeServiço()
         {
@@ -313,6 +323,44 @@ namespace SiehaRC
             PessoaJuridicaChecked.Enabled = true;
             PessoaJuridicaChecked.CheckState = CheckState.Unchecked;
             RazaoSocialCadastro.Enabled = false;
+        }
+        private void EquipamentoNovoChecked_Click(object sender, EventArgs e)
+        {
+            if (EquipNovoServiços.Checked)
+            {
+                EquipamentoNovoClickConfigura();
+            }
+
+        }
+
+        private void EquipamentoUsadoChecked_Click(object sender, EventArgs e)
+        {
+            if (EquipUsadoServiços.Checked)
+            {
+                EquipamentoUsadoClickConfigura();
+            }
+        }
+        private void EquipamentoNovoClickConfigura()
+        {
+            EquipNovoServiços.Enabled = false;
+            EquipUsadoServiços.CheckState = CheckState.Unchecked;
+            EquipUsadoServiços.Enabled = true;
+            if (!EquipNovoServiços.Checked)
+            {
+                EquipNovoServiços.CheckState = CheckState.Checked;
+            }
+
+            
+        }
+        private void EquipamentoUsadoClickConfigura()
+        {
+            EquipUsadoServiços.Enabled = false;
+            EquipNovoServiços.CheckState = CheckState.Unchecked;
+            EquipNovoServiços.Enabled = true;
+            if (!EquipUsadoServiços.Checked)
+            {
+                EquipUsadoServiços.CheckState = CheckState.Checked;
+            }
         }
         public string VerificaBuscaCPFouCNPJ(object[][] pesquisa)
         {
@@ -582,39 +630,6 @@ namespace SiehaRC
 
         }
 
-        private void button10_Click(object sender, EventArgs e)
-        {
-            object[][] val;
-            string CamposBanco = "nome,endereço";
-            string onde = "id";
-            string valor = IdClienteServiços.Text;
-            
-            if(!String.IsNullOrEmpty(valor))
-            {
-                banco.conectar();
-                val = banco.PesquisarOnde("cadastro", CamposBanco, onde, valor);
-                banco.desconectar();
-
-                if (!EstaNullOuZero(val))
-                {
-                    NomeClienteServiços.Text     = val[0][0].ToString();
-                    EndereçoClienteServiços.Text = val[0][1].ToString();
-                    HabilitaBotoesDeServiço();
-                    HabilitaDadosDeCadastrodeDeServiço();
-                }
-                else
-                {
-                    MessageBox.Show(banco.retornoDaQuery, "Erro!", MessageBoxButtons.OK);
-                }
-                
-            }
-            else
-            {
-                MessageBox.Show("O id nao pode estar vazio!", "Erro!", MessageBoxButtons.OK);
-            }
-            
-        }
-
         private void BtNovoServiços_Click(object sender, EventArgs e)
         {
             string[] CamposAInserir = new string[] {"idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
@@ -677,6 +692,104 @@ namespace SiehaRC
             else
             {
                 MessageBox.Show("Algum dado está em branco.", "Erro!", MessageBoxButtons.OK);
+            }
+        }
+
+        private void GradeDeBuscaServiços_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string valor = null;
+            string tipo = "id";
+            string pesquisaEquipameto = "id,idcadastro,equipamento,valorcompra,valorserviço,estado,defeito";
+            string pesquisaCadastro = "nome,endereço";
+            object[][] resultadoEquipameto = null, resultadoCadastro = null;
+
+            if (!GradeDeBuscaServiços.CurrentRow.IsNewRow) // inibe a ultima linha em branco de ser selecionada
+            {
+                valor = GradeDeBuscaServiços.CurrentRow.Cells[1].Value.ToString();
+                banco.conectar();
+                resultadoEquipameto = banco.PesquisarOnde("equipamento", pesquisaEquipameto, tipo, valor);
+                if(!EstaNullOuZero(resultadoEquipameto))
+                {
+                    resultadoCadastro = banco.PesquisarOnde("cadastro", pesquisaCadastro, tipo , resultadoEquipameto[0][1].ToString());
+                    if (!EstaNullOuZero(resultadoEquipameto))
+                    {
+                        HabilitarBotaoAtualizarServiços();
+                        HabilitarDadosDeCadastrodeDeServiço();
+                        DesabilitarBotaoNovoServiços();
+
+                        if (resultadoEquipameto[0][5].ToString() == "NOVO")
+                        {
+                            IdClienteServiços.Text       = resultadoEquipameto[0][1].ToString();
+                            NomeClienteServiços.Text     = resultadoCadastro[0][0].ToString();
+                            EndereçoClienteServiços.Text = resultadoCadastro[0][1].ToString();
+                            EquipamentoServiços.Text     = resultadoEquipameto[0][2].ToString();
+                            ValorCompraServiços.Text     = resultadoEquipameto[0][3].ToString();
+                            ValorServiçoServiços.Text    = resultadoEquipameto[0][4].ToString();
+                            EquipamentoNovoClickConfigura();
+                            EquipDefeitoServiços.Text    = resultadoEquipameto[0][6].ToString();
+                            IdServiçoServiços.Text       = resultadoEquipameto[0][0].ToString();
+                        }
+                        else
+                        {
+                            IdClienteServiços.Text = resultadoEquipameto[0][1].ToString();
+                            NomeClienteServiços.Text = resultadoCadastro[0][0].ToString();
+                            EndereçoClienteServiços.Text = resultadoCadastro[0][1].ToString();
+                            EquipamentoServiços.Text = resultadoEquipameto[0][2].ToString();
+                            ValorCompraServiços.Text = resultadoEquipameto[0][3].ToString();
+                            ValorServiçoServiços.Text = resultadoEquipameto[0][4].ToString();
+                            EquipamentoUsadoClickConfigura();
+                            EquipDefeitoServiços.Text = resultadoEquipameto[0][6].ToString();
+                            IdServiçoServiços.Text    = resultadoEquipameto[0][0].ToString();
+                        }
+                        
+                    }
+                    else
+                    {
+
+                    }
+
+                }
+                else
+                {
+
+                }
+
+                banco.desconectar();
+               
+            }
+        }
+
+        private void BtEncontrarIdServiços_Click(object sender, EventArgs e)
+        {
+            object[][] val;
+            string CamposBanco = "nome,endereço";
+            string onde = "id";
+            string valor = IdClienteServiços.Text;
+
+            if (!String.IsNullOrEmpty(valor))
+            {
+                banco.conectar();
+                val = banco.PesquisarOnde("cadastro", CamposBanco, onde, valor);
+                banco.desconectar();
+
+                if (!EstaNullOuZero(val))
+                {
+                    NomeClienteServiços.Text = val[0][0].ToString();
+                    EndereçoClienteServiços.Text = val[0][1].ToString();
+                    HabilitarBotaoNovoServiços();
+                    HabilitarDadosDeCadastrodeDeServiço();
+                    DesabilitarBotaoAtualizarServiços();
+                    ApagaDadosDeCadastrodeDeServiço();
+                }
+                else
+                {
+                    MessageBox.Show(banco.retornoDaQuery, "Erro!", MessageBoxButtons.OK);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("O id nao pode estar vazio!", "Erro!", MessageBoxButtons.OK);
             }
         }
     }
