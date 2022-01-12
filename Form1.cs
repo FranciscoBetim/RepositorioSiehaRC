@@ -33,7 +33,7 @@ namespace SiehaRC
         }
         private void CarregaComboBoxBuscaServiços()
         {
-            string combobox = "Nome,CPF,CNPJ,Telefone,Whatsapp";
+            string combobox = "Nome,CPF,CNPJ,Id,Telefone,Whatsapp";
             foreach (string nome in combobox.Split(','))
             {
                 TipoBuscaServiços.Items.Add(nome);
@@ -49,61 +49,77 @@ namespace SiehaRC
         }
         private void HabilitarBotaoNovoServiços()
         {
-            BtNovoServiços.Enabled = true;
+            BtNovoServiços.Enabled   = true;
             BtNovoServiços.BackColor = Color.Pink;
         }
         private void DesabilitarBotaoNovoServiços()
         {
-            BtNovoServiços.Enabled = false;
+            BtNovoServiços.Enabled   = false;
             BtNovoServiços.BackColor = Color.Transparent;
         }
         private void HabilitarDadosDeCadastrodeDeServiço()
         {
-            EquipamentoServiços.Enabled = true;
-            ValorCompraServiços.Enabled = true;
-            ValorServiçoServiços.Enabled = true;
-            EquipNovoServiços.Enabled = true;
-            EquipUsadoServiços.Enabled = true;
-            EquipDefeitoServiços.Enabled = true;
+            EquipamentoServiços.Enabled   = true;
+            ValorCompraServiços.Enabled   = true;
+            ValorServiçoServiços.Enabled  = true;
+            EquipNovoServiços.Enabled     = true;
+            EquipUsadoServiços.Enabled    = true;
+            EquipDefeitoServiços.Enabled  = true;
+            NomeItemCustoServiços.Enabled = true;
+            CustoItemServiços.Enabled     = true;
+            CustoItemServiços.Enabled     = true;
+
+
         }
         private void DesabilitarDadosDeCadastrodeDeServiço()
         {
-            EquipamentoServiços.Enabled = true;
-            ValorCompraServiços.Enabled = true;
+            EquipamentoServiços.Enabled  = true;
+            ValorCompraServiços.Enabled  = true;
             ValorServiçoServiços.Enabled = true;
-            EquipNovoServiços.Enabled = true;
-            EquipUsadoServiços.Enabled = true;
+            EquipNovoServiços.Enabled    = true;
+            EquipUsadoServiços.Enabled   = true;
             EquipDefeitoServiços.Enabled = true;
         }
         private void HabilitarBotaoAtualizarServiços()
         {
-            BtAtualizarServiços.Enabled = true;
+            BtAtualizarServiços.Enabled   = true;
             BtAtualizarServiços.BackColor = Color.Pink;
         }
         private void DesabilitarBotaoAtualizarServiços()
         {
-            BtAtualizarServiços.Enabled = false;
+            BtAtualizarServiços.Enabled   = false;
             BtAtualizarServiços.BackColor = Color.Transparent;
         }
+        private void HabilitarBotaoAdicionarCustoServiços()
+        {
+            BtAdicionarCustoServiços.Enabled   = true;
+            BtAdicionarCustoServiços.BackColor = Color.Pink;
+        }
+        private void DesabilitarBotaoAdicionarCustoServiços()
+        {
+            BtAdicionarCustoServiços.Enabled   = false;
+            BtAdicionarCustoServiços.BackColor = Color.Transparent;
+        }
+
         private void ApagaDadosDeCadastrodeDeServiço()
         {
-            EquipamentoServiços.Text = "";
-            ValorCompraServiços.Text = "";
-            ValorServiçoServiços.Text = "";
-            EquipNovoServiços.Checked = false;
+            EquipamentoServiços.Text   = "";
+            ValorCompraServiços.Text   = "";
+            ValorServiçoServiços.Text  = "";
+            EquipNovoServiços.Checked  = false;
             EquipUsadoServiços.Checked = false;
-            EquipDefeitoServiços.Text = "";
+            EquipDefeitoServiços.Text  = "";
         }
 
         private void BtSalvarCadastro_Click(object sender, EventArgs e)
         {
-            string[] CamposAInserir = new string[] { "cpf,cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo",
-                                                     "idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
+            string[] CamposAInserir      = new string[] { "cpf,cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo",
+                                                          "idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
             string[] ValorCamposAInserir = new string[2];
             int UltimoId;
             string estado;
             bool resultado = false;
-            string Existe = null;
+            string Existe  = null;
 
             if (!String.IsNullOrWhiteSpace(NomeCadastro.Text)        && 
                !String.IsNullOrWhiteSpace(TelefoneCadastro.Text)     && 
@@ -125,34 +141,34 @@ namespace SiehaRC
                         if (PessoaFisicaChecked.Checked)
                         {
                             ValorCamposAInserir[0] = "'" + CPFCadastro.Text + "','" +
-                                                      "NULL" + "','" +
-                                                      "NULL" + "','" +
-                                                      NomeCadastro.Text + "','" +
+                                                      "NULL"                + "','" +
+                                                      "NULL"                + "','" +
+                                                      NomeCadastro.Text     + "','" +
                                                       TelefoneCadastro.Text + "','" +
                                                       WhatsAppCadastro.Text + "','" +
-                                                      EmailCadastro.Text + "','" +
+                                                      EmailCadastro.Text    + "','" +
                                                       EndereçoCadastro.Text + "','" +
-                                                      SexoCadastro.Text + "'";
+                                                      SexoCadastro.Text     + "'";
 
                             resultado = banco.PesquisaSeExiste("cadastro", "cpf", CPFCadastro.Text);
-                            Existe = "cpf";
+                            Existe    = "cpf";
                             //   cpf,cnpj,razaosocial,nome,telefone,whatsap,endereço,sexo
 
                         }
                         else
                         {
-                            ValorCamposAInserir[0] = "'" + "NULL" + "','" +
-                                                       CNPJCadastro.Text + "','" +
+                            ValorCamposAInserir[0] = "'" + "NULL"               + "','" +
+                                                       CNPJCadastro.Text        + "','" +
                                                        RazaoSocialCadastro.Text + "','" +
-                                                       NomeCadastro.Text + "','" +
-                                                       TelefoneCadastro.Text + "','" +
-                                                       WhatsAppCadastro.Text + "','" +
-                                                       EmailCadastro.Text + "','" +
-                                                       EndereçoCadastro.Text + "','" +
-                                                       SexoCadastro.Text + "'";
+                                                       NomeCadastro.Text        + "','" +
+                                                       TelefoneCadastro.Text    + "','" +
+                                                       WhatsAppCadastro.Text    + "','" +
+                                                       EmailCadastro.Text       + "','" +
+                                                       EndereçoCadastro.Text    + "','" +
+                                                       SexoCadastro.Text        + "'";
 
                             resultado = banco.PesquisaSeExiste("cadastro", "cnpj", CNPJCadastro.Text);
-                            Existe = "cnpj";
+                            Existe    = "cnpj";
                         }
 
                         if (!resultado)
@@ -168,12 +184,12 @@ namespace SiehaRC
 
                             UltimoId = banco.PesquisarUltimoIdAutoIncremento("cadastro");
 
-                            ValorCamposAInserir[1] = "'" + (UltimoId + 1).ToString() + "','" +
-                                                           EquipamentoCadastro.Text + "','" +
-                                                           ValorCompraCadastro.Text.Replace(",", ".") + "','" +
+                            ValorCamposAInserir[1] = "'" + (UltimoId + 1).ToString()                   + "','" +
+                                                           EquipamentoCadastro.Text                    + "','" +
+                                                           ValorCompraCadastro.Text.Replace(",", ".")  + "','" +
                                                            ValorServiçoCadastro.Text.Replace(",", ".") + "','" +
-                                                           estado + "','" +
-                                                           EquipDefeitoCadastro.Text + "'";
+                                                           estado                                      + "','" +
+                                                           EquipDefeitoCadastro.Text                   + "'";
 
                             resultado = banco.InserirEm("cadastro", CamposAInserir[0], ValorCamposAInserir[0]);
                             if (resultado)
@@ -241,7 +257,7 @@ namespace SiehaRC
             object[][] val;
             string CamposBanco = "id,cpf,nome,endereço";
             string[] nomesDGV;
-            string onde = TipoBuscaClientes.Text;
+            string onde  = TipoBuscaClientes.Text;
             string valor = ValorBuscaClientes.Text;
 
             GradeDeBuscaClientes.DataSource = null;
@@ -277,7 +293,7 @@ namespace SiehaRC
                 for (int ciclo = 0; ciclo < GradeDeBuscaClientes.ColumnCount; ciclo++)
                 {
                     GradeDeBuscaClientes.Columns[ciclo].Width = (int)(690 / GradeDeBuscaClientes.ColumnCount);
-                    GradeDeBuscaClientes.Columns[ciclo].Name = nomesDGV[ciclo];
+                    GradeDeBuscaClientes.Columns[ciclo].Name  = nomesDGV[ciclo];
                 }
                 foreach (object[] tab in val)
                 {
@@ -308,21 +324,21 @@ namespace SiehaRC
         }
         private void PessoaJuridicaClickConfigura()
         {
-            CPFCadastro.Enabled = false;
-            PessoaFisicaChecked.Enabled = true;
+            CPFCadastro.Enabled            = false;
+            PessoaFisicaChecked.Enabled    = true;
             PessoaFisicaChecked.CheckState = CheckState.Unchecked;
-            CNPJCadastro.Enabled = true;
-            PessoaJuridicaChecked.Enabled = false;
-            RazaoSocialCadastro.Enabled = true;
+            CNPJCadastro.Enabled           = true;
+            PessoaJuridicaChecked.Enabled  = false;
+            RazaoSocialCadastro.Enabled    = true;
         }
         private void PessoaFisicaClickConfigura()
         {
-            CPFCadastro.Enabled = true;
-            PessoaFisicaChecked.Enabled = false;
-            CNPJCadastro.Enabled = false;
-            PessoaJuridicaChecked.Enabled = true;
+            CPFCadastro.Enabled              = true;
+            PessoaFisicaChecked.Enabled      = false;
+            CNPJCadastro.Enabled             = false;
+            PessoaJuridicaChecked.Enabled    = true;
             PessoaJuridicaChecked.CheckState = CheckState.Unchecked;
-            RazaoSocialCadastro.Enabled = false;
+            RazaoSocialCadastro.Enabled      = false;
         }
         private void EquipamentoNovoChecked_Click(object sender, EventArgs e)
         {
@@ -342,9 +358,9 @@ namespace SiehaRC
         }
         private void EquipamentoNovoClickConfigura()
         {
-            EquipNovoServiços.Enabled = false;
+            EquipNovoServiços.Enabled     = false;
             EquipUsadoServiços.CheckState = CheckState.Unchecked;
-            EquipUsadoServiços.Enabled = true;
+            EquipUsadoServiços.Enabled    = true;
             if (!EquipNovoServiços.Checked)
             {
                 EquipNovoServiços.CheckState = CheckState.Checked;
@@ -354,9 +370,9 @@ namespace SiehaRC
         }
         private void EquipamentoUsadoClickConfigura()
         {
-            EquipUsadoServiços.Enabled = false;
+            EquipUsadoServiços.Enabled   = false;
             EquipNovoServiços.CheckState = CheckState.Unchecked;
-            EquipNovoServiços.Enabled = true;
+            EquipNovoServiços.Enabled    = true;
             if (!EquipUsadoServiços.Checked)
             {
                 EquipUsadoServiços.CheckState = CheckState.Checked;
@@ -364,7 +380,7 @@ namespace SiehaRC
         }
         public string VerificaBuscaCPFouCNPJ(object[][] pesquisa)
         {
-            bool cpf = false;
+            bool cpf  = false;
             bool cnpj = false;
             string resultado = null;
             foreach(object[] val in pesquisa)
@@ -410,11 +426,11 @@ namespace SiehaRC
 
         private void BtAtualizarCadastro_Click(object sender, EventArgs e)
         {
-            string[] CamposAInserir = new string[] { "cpf,cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo",
-                                                     "idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
+            string[] CamposAInserir      = new string[] { "cpf,cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo",
+                                                          "idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
             string[] ValorCamposAInserir = new string[1];
             bool resultado = false;
-            string Existe = null;
+            string Existe  = null;
             string ValorExiste = null;
 
             if (!String.IsNullOrWhiteSpace(NomeCadastro.Text)    &&
@@ -432,17 +448,17 @@ namespace SiehaRC
                         if (PessoaFisicaChecked.Checked)
                         {
                             ValorCamposAInserir[0] = "'" + CPFCadastro.Text + "','" +
-                                                      "NULL" + "','" +
-                                                      "NULL" + "','" +
-                                                      NomeCadastro.Text + "','" +
+                                                      "NULL"                + "','" +
+                                                      "NULL"                + "','" +
+                                                      NomeCadastro.Text     + "','" +
                                                       TelefoneCadastro.Text + "','" +
                                                       WhatsAppCadastro.Text + "','" +
-                                                      EmailCadastro.Text + "','" +
+                                                      EmailCadastro.Text    + "','" +
                                                       EndereçoCadastro.Text + "','" +
-                                                      SexoCadastro.Text + "'";
+                                                      SexoCadastro.Text     + "'";
                             ValorExiste = CPFCadastro.Text;
-                            resultado = banco.PesquisaSeExiste("cadastro", "cpf", ValorExiste);
-                            Existe = "cpf";
+                            resultado   = banco.PesquisaSeExiste("cadastro", "cpf", ValorExiste);
+                            Existe      = "cpf";
                             //   cpf,cnpj,razaosocial,nome,telefone,whatsap,endereço,sexo
 
                         }
@@ -458,8 +474,8 @@ namespace SiehaRC
                                                        EndereçoCadastro.Text + "','" +
                                                        SexoCadastro.Text + "'";
                             ValorExiste = CNPJCadastro.Text;
-                            resultado = banco.PesquisaSeExiste("cadastro", "cnpj", ValorExiste);
-                            Existe = "cnpj";
+                            resultado   = banco.PesquisaSeExiste("cadastro", "cnpj", ValorExiste);
+                            Existe      = "cnpj";
                         }
 
                         if (resultado)
@@ -501,9 +517,9 @@ namespace SiehaRC
         private void button9_Click(object sender, EventArgs e)
         {
             object[][] Cadastro,serviço,Mix = null;
-            string[] CamposBanco = new string[] { "id,nome,endereço" ,"id,equipamento", "IdCliente,IdServiço,equipamento,nome,endereço" };
+            string[] CamposBanco            = new string[] { "id,nome,endereço" ,"id,equipamento", "IdCliente,IdServiço,equipamento,nome,endereço" };
             string[] nomesDGV;
-            string onde = TipoBuscaServiços.Text;
+            string onde  = TipoBuscaServiços.Text;
             string valor = ValorBuscaServiços.Text;
             List<object[]> lista = new List<object[]>();
 
@@ -538,7 +554,7 @@ namespace SiehaRC
                     for (int ciclo = 0; ciclo < GradeDeBuscaServiços.ColumnCount; ciclo++)
                     {
                         GradeDeBuscaServiços.Columns[ciclo].Width = (int)(690 / GradeDeBuscaServiços.ColumnCount);
-                        GradeDeBuscaServiços.Columns[ciclo].Name = nomesDGV[ciclo];
+                        GradeDeBuscaServiços.Columns[ciclo].Name  = nomesDGV[ciclo];
                     }
                     
                     foreach (object[] tab in Mix)
@@ -551,35 +567,35 @@ namespace SiehaRC
         }
         private void GradeDeBuscaClientesDuploClick(object sender, DataGridViewCellEventArgs e)
         {
-            string valor = null;
-            string tipo = null;
-            string testelinha = null;
+            string valor       = null;
+            string tipo        = null;
+            string testelinha  = null;
             string testecoluna = null;
-            string pesquisa = null;
+            string pesquisa    = null;
             object[][] resultado = null;
 
             if (!GradeDeBuscaClientes.CurrentRow.IsNewRow) // inibe a ultima linha em branco de ser selecionada
             {
-                testelinha = GradeDeBuscaClientes.CurrentRow.Cells[0].Value.ToString();
+                testelinha  = GradeDeBuscaClientes.CurrentRow.Cells[0].Value.ToString();
                 testecoluna = GradeDeBuscaClientes.Columns[0].Name;
                 if (testecoluna == "cnpj")
                 {
-                    valor = GradeDeBuscaClientes.CurrentRow.Cells[0].Value.ToString();
-                    tipo = "cnpj";
+                    valor    = GradeDeBuscaClientes.CurrentRow.Cells[0].Value.ToString();
+                    tipo     = "cnpj";
                     pesquisa = "cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo";
                 }
                 else
                 {
                     if (testelinha == "NULL")
                     {
-                        valor = GradeDeBuscaClientes.CurrentRow.Cells[1].Value.ToString();
-                        tipo = "cnpj";
+                        valor    = GradeDeBuscaClientes.CurrentRow.Cells[1].Value.ToString();
+                        tipo     = "cnpj";
                         pesquisa = "cnpj,razaosocial,nome,telefone,whatsapp,email,endereço,sexo";
                     }
                     else
                     {
-                        valor = GradeDeBuscaClientes.CurrentRow.Cells[0].Value.ToString();
-                        tipo = "cpf";
+                        valor    = GradeDeBuscaClientes.CurrentRow.Cells[0].Value.ToString();
+                        tipo     = "cpf";
                         pesquisa = "cpf,nome,telefone,whatsapp,email,endereço,sexo";
                     }
 
@@ -593,30 +609,30 @@ namespace SiehaRC
                 {
                     if (tipo == "cpf")
                     {
-                        CPFCadastro.Text = resultado[0][0].ToString();
-                        CNPJCadastro.Text = "";
+                        CPFCadastro.Text         = resultado[0][0].ToString();
+                        CNPJCadastro.Text        = "";
                         RazaoSocialCadastro.Text = "";
-                        NomeCadastro.Text = resultado[0][1].ToString();
-                        TelefoneCadastro.Text = resultado[0][2].ToString();
-                        WhatsAppCadastro.Text = resultado[0][3].ToString();
-                        EmailCadastro.Text = resultado[0][4].ToString();
-                        EndereçoCadastro.Text = resultado[0][5].ToString();
-                        SexoCadastro.Text = resultado[0][6].ToString();
+                        NomeCadastro.Text        = resultado[0][1].ToString();
+                        TelefoneCadastro.Text    = resultado[0][2].ToString();
+                        WhatsAppCadastro.Text    = resultado[0][3].ToString();
+                        EmailCadastro.Text       = resultado[0][4].ToString();
+                        EndereçoCadastro.Text    = resultado[0][5].ToString();
+                        SexoCadastro.Text        = resultado[0][6].ToString();
 
                         PessoaFisicaChecked.CheckState = CheckState.Checked;
                         PessoaFisicaClickConfigura();
                     }
                     else
                     {
-                        CPFCadastro.Text = "";
-                        CNPJCadastro.Text = resultado[0][0].ToString();
+                        CPFCadastro.Text         = "";
+                        CNPJCadastro.Text        = resultado[0][0].ToString();
                         RazaoSocialCadastro.Text = resultado[0][1].ToString();
-                        NomeCadastro.Text = resultado[0][2].ToString();
-                        TelefoneCadastro.Text = resultado[0][3].ToString();
-                        WhatsAppCadastro.Text = resultado[0][4].ToString();
-                        EmailCadastro.Text = resultado[0][5].ToString();
-                        EndereçoCadastro.Text = resultado[0][6].ToString();
-                        SexoCadastro.Text = resultado[0][7].ToString();
+                        NomeCadastro.Text        = resultado[0][2].ToString();
+                        TelefoneCadastro.Text    = resultado[0][3].ToString();
+                        WhatsAppCadastro.Text    = resultado[0][4].ToString();
+                        EmailCadastro.Text       = resultado[0][5].ToString();
+                        EndereçoCadastro.Text    = resultado[0][6].ToString();
+                        SexoCadastro.Text        = resultado[0][7].ToString();
 
                         PessoaJuridicaChecked.CheckState = CheckState.Checked;
                         PessoaJuridicaClickConfigura();
@@ -632,24 +648,24 @@ namespace SiehaRC
 
         private void BtNovoServiços_Click(object sender, EventArgs e)
         {
-            string[] CamposAInserir = new string[] {"idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
+            string[] CamposAInserir      = new string[] {"idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
             string[] ValorCamposAInserir = new string[1];
             string estado;
             bool resultado = false;
-            string Existe = null;
+            string Existe  = null;
 
             if (!String.IsNullOrWhiteSpace(EquipamentoServiços.Text) &&
-               !String.IsNullOrWhiteSpace(ValorCompraServiços.Text) &&
+               !String.IsNullOrWhiteSpace(ValorCompraServiços.Text)  &&
                !String.IsNullOrWhiteSpace(ValorServiçoServiços.Text) &&
                !String.IsNullOrWhiteSpace(EquipDefeitoServiços.Text) &&
-               !String.IsNullOrWhiteSpace(IdClienteServiços.Text) &&
+               !String.IsNullOrWhiteSpace(IdClienteServiços.Text)    &&
                (EquipNovoServiços.Checked ^ EquipUsadoServiços.Checked))
             {
                 
                 banco.conectar();
                 
                 resultado = banco.PesquisaSeExiste("cadastro", "id", IdClienteServiços.Text);
-                Existe = "Id";
+                Existe    = "Id";
                 if (resultado)
                 {
                     if (EquipNovoServiços.Checked)
@@ -661,12 +677,12 @@ namespace SiehaRC
                         estado = "USADO";
                     }
                     
-                    ValorCamposAInserir[0] = "'" +  IdClienteServiços.Text + "','" +
-                                                    EquipamentoServiços.Text + "','" +
-                                                    ValorCompraServiços.Text.Replace(",", ".") + "','" +
+                    ValorCamposAInserir[0] = "'" +  IdClienteServiços.Text                      + "','" +
+                                                    EquipamentoServiços.Text                    + "','" +
+                                                    ValorCompraServiços.Text.Replace(",", ".")  + "','" +
                                                     ValorServiçoServiços.Text.Replace(",", ".") + "','" +
-                                                    estado + "','" +
-                                                    EquipDefeitoServiços.Text + "'";
+                                                    estado                                      + "','" +
+                                                    EquipDefeitoServiços.Text                    + "'";
 
                     
                     resultado = banco.InserirEm("equipamento", CamposAInserir[0], ValorCamposAInserir[0]);
@@ -698,10 +714,12 @@ namespace SiehaRC
         private void GradeDeBuscaServiços_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             string valor = null;
-            string tipo = "id";
+            string tipo  = "id";
             string pesquisaEquipameto = "id,idcadastro,equipamento,valorcompra,valorserviço,estado,defeito";
-            string pesquisaCadastro = "nome,endereço";
-            object[][] resultadoEquipameto = null, resultadoCadastro = null;
+            string pesquisaCadastro   = "nome,endereço";
+            string pesquisaCustos     = "item,custo";
+            string[]nomesDGV = null;
+            object[][] resultadoEquipameto = null, resultadoCadastro = null,resultadoCustos = null;
 
             if (!GradeDeBuscaServiços.CurrentRow.IsNewRow) // inibe a ultima linha em branco de ser selecionada
             {
@@ -710,6 +728,31 @@ namespace SiehaRC
                 resultadoEquipameto = banco.PesquisarOnde("equipamento", pesquisaEquipameto, tipo, valor);
                 if(!EstaNullOuZero(resultadoEquipameto))
                 {
+                    resultadoCustos = banco.PesquisarOnde("custos", pesquisaCustos, tipo +"serviço" , valor);
+                    GradeDeBuscaCustosServiços.DataSource = null;
+                    GradeDeBuscaCustosServiços.Rows.Clear();
+                    GradeDeBuscaCustosServiços.Columns.Clear();
+
+                    if (!EstaNullOuZero(resultadoCustos))
+                    {
+                        nomesDGV = pesquisaCustos.Split(',');
+                        GradeDeBuscaCustosServiços.ColumnCount = nomesDGV.Length;
+                        for (int ciclo = 0;ciclo < GradeDeBuscaCustosServiços.ColumnCount;ciclo++)
+                        {
+                            GradeDeBuscaCustosServiços.Columns[ciclo].Width = (int)(690 / GradeDeBuscaCustosServiços.ColumnCount);
+                            GradeDeBuscaCustosServiços.Columns[ciclo].Name = nomesDGV[ciclo];
+                        }
+                        foreach(object[] Mix in resultadoCustos)
+                        {
+                            GradeDeBuscaCustosServiços.Rows.Add(Mix);
+                        }
+                    }
+                    else
+                    {
+                        GradeDeBuscaCustosServiços.ColumnCount = 1;
+                        GradeDeBuscaCustosServiços.Columns[0].Width = 690;
+                        GradeDeBuscaCustosServiços.Columns[0].Name = "Nenhum Custo foi registrado";
+                    }
                     resultadoCadastro = banco.PesquisarOnde("cadastro", pesquisaCadastro, tipo , resultadoEquipameto[0][1].ToString());
                     if (!EstaNullOuZero(resultadoEquipameto))
                     {
@@ -725,33 +768,33 @@ namespace SiehaRC
                             EquipamentoServiços.Text     = resultadoEquipameto[0][2].ToString();
                             ValorCompraServiços.Text     = resultadoEquipameto[0][3].ToString();
                             ValorServiçoServiços.Text    = resultadoEquipameto[0][4].ToString();
-                            EquipamentoNovoClickConfigura();
                             EquipDefeitoServiços.Text    = resultadoEquipameto[0][6].ToString();
                             IdServiçoServiços.Text       = resultadoEquipameto[0][0].ToString();
+                            EquipamentoNovoClickConfigura();
                         }
                         else
                         {
-                            IdClienteServiços.Text = resultadoEquipameto[0][1].ToString();
-                            NomeClienteServiços.Text = resultadoCadastro[0][0].ToString();
+                            IdClienteServiços.Text       = resultadoEquipameto[0][1].ToString();
+                            NomeClienteServiços.Text     = resultadoCadastro[0][0].ToString();
                             EndereçoClienteServiços.Text = resultadoCadastro[0][1].ToString();
-                            EquipamentoServiços.Text = resultadoEquipameto[0][2].ToString();
-                            ValorCompraServiços.Text = resultadoEquipameto[0][3].ToString();
-                            ValorServiçoServiços.Text = resultadoEquipameto[0][4].ToString();
+                            EquipamentoServiços.Text     = resultadoEquipameto[0][2].ToString();
+                            ValorCompraServiços.Text     = resultadoEquipameto[0][3].ToString();
+                            ValorServiçoServiços.Text    = resultadoEquipameto[0][4].ToString();
+                            EquipDefeitoServiços.Text    = resultadoEquipameto[0][6].ToString();
+                            IdServiçoServiços.Text       = resultadoEquipameto[0][0].ToString();
                             EquipamentoUsadoClickConfigura();
-                            EquipDefeitoServiços.Text = resultadoEquipameto[0][6].ToString();
-                            IdServiçoServiços.Text    = resultadoEquipameto[0][0].ToString();
                         }
                         
                     }
                     else
                     {
-
+                        MessageBox.Show("Nao foi retornado nenhum cliente", "Erro!", MessageBoxButtons.OK);
                     }
 
                 }
                 else
                 {
-
+                    MessageBox.Show("Nao foi retornado nenhum equipamento", "Erro!", MessageBoxButtons.OK);
                 }
 
                 banco.desconectar();
@@ -763,7 +806,7 @@ namespace SiehaRC
         {
             object[][] val;
             string CamposBanco = "nome,endereço";
-            string onde = "id";
+            string onde  = "id";
             string valor = IdClienteServiços.Text;
 
             if (!String.IsNullOrEmpty(valor))
@@ -774,9 +817,10 @@ namespace SiehaRC
 
                 if (!EstaNullOuZero(val))
                 {
-                    NomeClienteServiços.Text = val[0][0].ToString();
+                    NomeClienteServiços.Text     = val[0][0].ToString();
                     EndereçoClienteServiços.Text = val[0][1].ToString();
                     HabilitarBotaoNovoServiços();
+                    HabilitarBotaoAdicionarCustoServiços();
                     HabilitarDadosDeCadastrodeDeServiço();
                     DesabilitarBotaoAtualizarServiços();
                     ApagaDadosDeCadastrodeDeServiço();
@@ -790,6 +834,95 @@ namespace SiehaRC
             else
             {
                 MessageBox.Show("O id nao pode estar vazio!", "Erro!", MessageBoxButtons.OK);
+            }
+        }
+
+        private void BtAtualizarServiços_Click(object sender, EventArgs e)
+        {
+            string[] CamposAInserir      = new string[] { "idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
+            string[] ValorCamposAInserir = new string[1];
+            string estado;
+            bool resultado = false;
+            string Existe  = null;
+
+            if (!String.IsNullOrWhiteSpace(EquipamentoServiços.Text) &&
+               !String.IsNullOrWhiteSpace(ValorCompraServiços.Text)  &&
+               !String.IsNullOrWhiteSpace(ValorServiçoServiços.Text) &&
+               !String.IsNullOrWhiteSpace(EquipDefeitoServiços.Text) &&
+               !String.IsNullOrWhiteSpace(IdClienteServiços.Text)    &&
+               !String.IsNullOrWhiteSpace(IdServiçoServiços.Text)    &&
+               (EquipNovoServiços.Checked ^ EquipUsadoServiços.Checked))
+            {
+
+                banco.conectar();
+
+                resultado = banco.PesquisaSeExiste("equipamento", "id", IdServiçoServiços.Text);
+                Existe    = "Id";
+                if (resultado)
+                {
+                    if (EquipNovoServiços.Checked)
+                    {
+                        estado = "NOVO";
+                    }
+                    else
+                    {
+                        estado = "USADO";
+                    }
+
+                    ValorCamposAInserir[0] = "'" + IdClienteServiços.Text                       + "','" +
+                                                    EquipamentoServiços.Text                    + "','" +
+                                                    ValorCompraServiços.Text.Replace(",", ".")  + "','" +
+                                                    ValorServiçoServiços.Text.Replace(",", ".") + "','" +
+                                                    estado                                      + "','" +
+                                                    EquipDefeitoServiços.Text                   + "'";
+
+
+                    resultado = banco.AtualizarOnde("equipamento", CamposAInserir[0], ValorCamposAInserir[0],"id", IdServiçoServiços.Text);
+                    if (resultado)
+                    {
+                        MessageBox.Show("Serviço atualizado com sucesso!", @"SiehaR&C", MessageBoxButtons.OK);
+                        ApagaDadosDeCadastrodeDeServiço();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Erro ao atualizar Serviço do cliente.", "Erro!", MessageBoxButtons.OK);
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("Nao existe um serviço com este " + Existe + "!", "Erro!", MessageBoxButtons.OK);
+                }
+
+                banco.desconectar();
+
+            }
+            else
+            {
+                MessageBox.Show("Algum dado está em branco.", "Erro!", MessageBoxButtons.OK);
+            }
+        }
+
+        private void BtAdicionarCustoServiços_Click(object sender, EventArgs e)
+        {
+            object[] Mix         = new string[2];
+            string[] CamposBanco = new string[] { "Item,custo(R$)" };
+            string[] nomesDGV;
+            
+            if (!String.IsNullOrWhiteSpace(NomeItemCustoServiços.Text) &&
+                !String.IsNullOrWhiteSpace(CustoItemServiços.Text))
+            {
+                Mix[0] = NomeItemCustoServiços.Text;
+                Mix[1] = CustoItemServiços.Text;
+                nomesDGV = CamposBanco[0].Split(',');
+                GradeDeBuscaCustosServiços.ColumnCount = nomesDGV.Length;
+                for (int ciclo = 0; ciclo < GradeDeBuscaCustosServiços.ColumnCount; ciclo++)
+                {
+                    GradeDeBuscaCustosServiços.Columns[ciclo].Width = (int)(690 / GradeDeBuscaCustosServiços.ColumnCount);
+                    GradeDeBuscaCustosServiços.Columns[ciclo].Name  = nomesDGV[ciclo];
+                }
+                 
+                GradeDeBuscaCustosServiços.Rows.Add(Mix);
             }
         }
     }

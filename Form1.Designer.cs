@@ -30,6 +30,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TabControle = new System.Windows.Forms.TabControl();
             this.TabCadastro = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -98,6 +101,14 @@
             this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.panel11 = new System.Windows.Forms.Panel();
+            this.BtAdicionarCustoServiços = new System.Windows.Forms.Button();
+            this.BtAtualizarServiços = new System.Windows.Forms.Button();
+            this.CustoItemServiços = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.NomeItemCustoServiços = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.GradeDeBuscaCustosServiços = new System.Windows.Forms.DataGridView();
             this.BtEncontrarIdServiços = new System.Windows.Forms.Button();
             this.IdClienteServiços = new System.Windows.Forms.TextBox();
             this.label37 = new System.Windows.Forms.Label();
@@ -107,7 +118,6 @@
             this.label35 = new System.Windows.Forms.Label();
             this.ValorServiçoServiços = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
-            this.BtAtualizarServiços = new System.Windows.Forms.Button();
             this.EquipDefeitoServiços = new System.Windows.Forms.RichTextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.BtNovoServiços = new System.Windows.Forms.Button();
@@ -134,6 +144,7 @@
             this.panel14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GradeDeBuscaServiços)).BeginInit();
             this.panel11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GradeDeBuscaCustosServiços)).BeginInit();
             this.panel12.SuspendLayout();
             this.panel13.SuspendLayout();
             this.SuspendLayout();
@@ -742,16 +753,16 @@
             this.panel14.Controls.Add(this.label33);
             this.panel14.Controls.Add(this.label34);
             this.panel14.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel14.Location = new System.Drawing.Point(6, 293);
+            this.panel14.Location = new System.Drawing.Point(6, 451);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(1022, 387);
+            this.panel14.Size = new System.Drawing.Size(1022, 235);
             this.panel14.TabIndex = 29;
             // 
             // IdServiçoServiços
             // 
             this.IdServiçoServiços.Enabled = false;
             this.IdServiçoServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.IdServiçoServiços.Location = new System.Drawing.Point(903, 15);
+            this.IdServiçoServiços.Location = new System.Drawing.Point(905, 8);
             this.IdServiçoServiços.Name = "IdServiçoServiços";
             this.IdServiçoServiços.Size = new System.Drawing.Size(105, 27);
             this.IdServiçoServiços.TabIndex = 35;
@@ -760,7 +771,7 @@
             // 
             this.label38.AutoSize = true;
             this.label38.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label38.Location = new System.Drawing.Point(804, 17);
+            this.label38.Location = new System.Drawing.Point(806, 10);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(100, 22);
             this.label38.TabIndex = 34;
@@ -769,17 +780,17 @@
             // GradeDeBuscaServiços
             // 
             this.GradeDeBuscaServiços.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.GradeDeBuscaServiços.Location = new System.Drawing.Point(10, 84);
+            this.GradeDeBuscaServiços.Location = new System.Drawing.Point(12, 81);
             this.GradeDeBuscaServiços.Name = "GradeDeBuscaServiços";
             this.GradeDeBuscaServiços.RowTemplate.Height = 24;
-            this.GradeDeBuscaServiços.Size = new System.Drawing.Size(999, 292);
+            this.GradeDeBuscaServiços.Size = new System.Drawing.Size(999, 145);
             this.GradeDeBuscaServiços.TabIndex = 28;
             this.GradeDeBuscaServiços.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GradeDeBuscaServiços_CellDoubleClick);
             // 
             // button9
             // 
             this.button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.button9.Location = new System.Drawing.Point(793, 45);
+            this.button9.Location = new System.Drawing.Point(795, 38);
             this.button9.Name = "button9";
             this.button9.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.button9.Size = new System.Drawing.Size(216, 32);
@@ -791,7 +802,7 @@
             // ValorBuscaServiços
             // 
             this.ValorBuscaServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ValorBuscaServiços.Location = new System.Drawing.Point(421, 50);
+            this.ValorBuscaServiços.Location = new System.Drawing.Point(423, 43);
             this.ValorBuscaServiços.Name = "ValorBuscaServiços";
             this.ValorBuscaServiços.Size = new System.Drawing.Size(344, 27);
             this.ValorBuscaServiços.TabIndex = 26;
@@ -800,7 +811,7 @@
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(356, 52);
+            this.label32.Location = new System.Drawing.Point(358, 45);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(59, 22);
             this.label32.TabIndex = 25;
@@ -810,7 +821,7 @@
             // 
             this.TipoBuscaServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TipoBuscaServiços.FormattingEnabled = true;
-            this.TipoBuscaServiços.Location = new System.Drawing.Point(107, 50);
+            this.TipoBuscaServiços.Location = new System.Drawing.Point(109, 43);
             this.TipoBuscaServiços.Name = "TipoBuscaServiços";
             this.TipoBuscaServiços.Size = new System.Drawing.Size(232, 28);
             this.TipoBuscaServiços.TabIndex = 16;
@@ -819,7 +830,7 @@
             // 
             this.label33.AutoSize = true;
             this.label33.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label33.Location = new System.Drawing.Point(6, 50);
+            this.label33.Location = new System.Drawing.Point(8, 43);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(103, 22);
             this.label33.TabIndex = 15;
@@ -829,7 +840,7 @@
             // 
             this.label34.AutoSize = true;
             this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold);
-            this.label34.Location = new System.Drawing.Point(6, 17);
+            this.label34.Location = new System.Drawing.Point(8, 10);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(271, 24);
             this.label34.TabIndex = 2;
@@ -838,6 +849,14 @@
             // panel11
             // 
             this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel11.Controls.Add(this.BtAdicionarCustoServiços);
+            this.panel11.Controls.Add(this.BtAtualizarServiços);
+            this.panel11.Controls.Add(this.CustoItemServiços);
+            this.panel11.Controls.Add(this.label24);
+            this.panel11.Controls.Add(this.NomeItemCustoServiços);
+            this.panel11.Controls.Add(this.label23);
+            this.panel11.Controls.Add(this.label22);
+            this.panel11.Controls.Add(this.GradeDeBuscaCustosServiços);
             this.panel11.Controls.Add(this.BtEncontrarIdServiços);
             this.panel11.Controls.Add(this.IdClienteServiços);
             this.panel11.Controls.Add(this.label37);
@@ -847,7 +866,6 @@
             this.panel11.Controls.Add(this.label35);
             this.panel11.Controls.Add(this.ValorServiçoServiços);
             this.panel11.Controls.Add(this.label27);
-            this.panel11.Controls.Add(this.BtAtualizarServiços);
             this.panel11.Controls.Add(this.EquipDefeitoServiços);
             this.panel11.Controls.Add(this.label28);
             this.panel11.Controls.Add(this.BtNovoServiços);
@@ -861,8 +879,115 @@
             this.panel11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel11.Location = new System.Drawing.Point(6, 6);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(1022, 290);
+            this.panel11.Size = new System.Drawing.Size(1022, 448);
             this.panel11.TabIndex = 28;
+            // 
+            // BtAdicionarCustoServiços
+            // 
+            this.BtAdicionarCustoServiços.Enabled = false;
+            this.BtAdicionarCustoServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
+            this.BtAdicionarCustoServiços.Location = new System.Drawing.Point(901, 217);
+            this.BtAdicionarCustoServiços.Name = "BtAdicionarCustoServiços";
+            this.BtAdicionarCustoServiços.Size = new System.Drawing.Size(106, 32);
+            this.BtAdicionarCustoServiços.TabIndex = 43;
+            this.BtAdicionarCustoServiços.Text = "Adicionar";
+            this.BtAdicionarCustoServiços.UseVisualStyleBackColor = true;
+            this.BtAdicionarCustoServiços.Click += new System.EventHandler(this.BtAdicionarCustoServiços_Click);
+            // 
+            // BtAtualizarServiços
+            // 
+            this.BtAtualizarServiços.Enabled = false;
+            this.BtAtualizarServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
+            this.BtAtualizarServiços.Location = new System.Drawing.Point(904, 406);
+            this.BtAtualizarServiços.Name = "BtAtualizarServiços";
+            this.BtAtualizarServiços.Size = new System.Drawing.Size(106, 32);
+            this.BtAtualizarServiços.TabIndex = 42;
+            this.BtAtualizarServiços.Text = "Atualizar";
+            this.BtAtualizarServiços.UseVisualStyleBackColor = true;
+            this.BtAtualizarServiços.Click += new System.EventHandler(this.BtAtualizarServiços_Click);
+            // 
+            // CustoItemServiços
+            // 
+            this.CustoItemServiços.Enabled = false;
+            this.CustoItemServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.CustoItemServiços.Location = new System.Drawing.Point(787, 218);
+            this.CustoItemServiços.Name = "CustoItemServiços";
+            this.CustoItemServiços.Size = new System.Drawing.Size(94, 30);
+            this.CustoItemServiços.TabIndex = 41;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(686, 221);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(103, 22);
+            this.label24.TabIndex = 40;
+            this.label24.Text = "Custo (R$):";
+            // 
+            // NomeItemCustoServiços
+            // 
+            this.NomeItemCustoServiços.Enabled = false;
+            this.NomeItemCustoServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.NomeItemCustoServiços.Location = new System.Drawing.Point(203, 218);
+            this.NomeItemCustoServiços.Name = "NomeItemCustoServiços";
+            this.NomeItemCustoServiços.Size = new System.Drawing.Size(473, 30);
+            this.NomeItemCustoServiços.TabIndex = 39;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(9, 224);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(187, 22);
+            this.label23.TabIndex = 38;
+            this.label23.Text = "Nome do Item \\ Custo:";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label22.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(7, 259);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(210, 22);
+            this.label22.TabIndex = 37;
+            this.label22.Text = "Itens \\ Custos do serviço:";
+            // 
+            // GradeDeBuscaCustosServiços
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.GradeDeBuscaCustosServiços.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.GradeDeBuscaCustosServiços.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.GradeDeBuscaCustosServiços.DefaultCellStyle = dataGridViewCellStyle2;
+            this.GradeDeBuscaCustosServiços.Enabled = false;
+            this.GradeDeBuscaCustosServiços.Location = new System.Drawing.Point(8, 284);
+            this.GradeDeBuscaCustosServiços.Name = "GradeDeBuscaCustosServiços";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.GradeDeBuscaCustosServiços.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.GradeDeBuscaCustosServiços.RowTemplate.Height = 24;
+            this.GradeDeBuscaCustosServiços.Size = new System.Drawing.Size(1003, 116);
+            this.GradeDeBuscaCustosServiços.TabIndex = 36;
             // 
             // BtEncontrarIdServiços
             // 
@@ -950,24 +1075,13 @@
             this.label27.TabIndex = 25;
             this.label27.Text = "Valor do serviço(R$):";
             // 
-            // BtAtualizarServiços
-            // 
-            this.BtAtualizarServiços.Enabled = false;
-            this.BtAtualizarServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.BtAtualizarServiços.Location = new System.Drawing.Point(903, 250);
-            this.BtAtualizarServiços.Name = "BtAtualizarServiços";
-            this.BtAtualizarServiços.Size = new System.Drawing.Size(106, 32);
-            this.BtAtualizarServiços.TabIndex = 24;
-            this.BtAtualizarServiços.Text = "Atualizar";
-            this.BtAtualizarServiços.UseVisualStyleBackColor = true;
-            // 
             // EquipDefeitoServiços
             // 
             this.EquipDefeitoServiços.Enabled = false;
             this.EquipDefeitoServiços.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EquipDefeitoServiços.Location = new System.Drawing.Point(11, 148);
             this.EquipDefeitoServiços.Name = "EquipDefeitoServiços";
-            this.EquipDefeitoServiços.Size = new System.Drawing.Size(999, 96);
+            this.EquipDefeitoServiços.Size = new System.Drawing.Size(999, 57);
             this.EquipDefeitoServiços.TabIndex = 23;
             this.EquipDefeitoServiços.Text = "";
             // 
@@ -985,7 +1099,7 @@
             // 
             this.BtNovoServiços.Enabled = false;
             this.BtNovoServiços.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.BtNovoServiços.Location = new System.Drawing.Point(10, 250);
+            this.BtNovoServiços.Location = new System.Drawing.Point(8, 406);
             this.BtNovoServiços.Name = "BtNovoServiços";
             this.BtNovoServiços.Size = new System.Drawing.Size(106, 32);
             this.BtNovoServiços.TabIndex = 0;
@@ -1116,6 +1230,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.GradeDeBuscaServiços)).EndInit();
             this.panel11.ResumeLayout(false);
             this.panel11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GradeDeBuscaCustosServiços)).EndInit();
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
             this.panel13.ResumeLayout(false);
@@ -1194,7 +1309,6 @@
         private System.Windows.Forms.Panel panel11;
         private System.Windows.Forms.TextBox ValorServiçoServiços;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Button BtAtualizarServiços;
         private System.Windows.Forms.RichTextBox EquipDefeitoServiços;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Button BtNovoServiços;
@@ -1216,6 +1330,14 @@
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.TextBox IdServiçoServiços;
         private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.TextBox CustoItemServiços;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox NomeItemCustoServiços;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.DataGridView GradeDeBuscaCustosServiços;
+        private System.Windows.Forms.Button BtAtualizarServiços;
+        private System.Windows.Forms.Button BtAdicionarCustoServiços;
     }
 }
 
