@@ -59,7 +59,7 @@ namespace SiehaRC
         }
         private void HabilitarDadosDeCadastrodeDeServiço()
         {
---------------            EquipamentoServiços.Enabled        = true;
+            EquipamentoServiços.Enabled        = true;
             ValorCompraServiços.Enabled        = true;
             ValorServiçoServiços.Enabled       = true;
             EquipNovoServiços.Enabled          = true;
