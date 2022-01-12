@@ -328,15 +328,15 @@ namespace SiehaRC
 
             return (retorno);
         }
-        public bool DeleteOnde(string Tabela, string Coluna, string valColuna)
+        public bool DeleteOnde(string Tabela, string Onde, string valor)
         {
             bool retorno = false;
 
             this.ComandoDaQuery = "DeleteOnde";
             this.UltimoComando = new SqlCommand();
-            this.UltimoComando.CommandText = "DELETE FROM " + Tabela + " WHERE " + Coluna + " = " + valColuna;
+            this.UltimoComando.CommandText = "DELETE FROM " + Tabela + " WHERE " + Onde + " = " + valor;
             this.QueryDeEnvio = this.UltimoComando.CommandText;
-            retorno = DeleteEm(Tabela, Coluna + ": " + valColuna);
+            retorno = DeleteEm(Tabela, Onde + ": " + valor);
 
             return (retorno);
         }

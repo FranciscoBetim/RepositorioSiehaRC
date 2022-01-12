@@ -59,26 +59,29 @@ namespace SiehaRC
         }
         private void HabilitarDadosDeCadastrodeDeServiço()
         {
-            EquipamentoServiços.Enabled   = true;
-            ValorCompraServiços.Enabled   = true;
-            ValorServiçoServiços.Enabled  = true;
-            EquipNovoServiços.Enabled     = true;
-            EquipUsadoServiços.Enabled    = true;
-            EquipDefeitoServiços.Enabled  = true;
-            NomeItemCustoServiços.Enabled = true;
-            CustoItemServiços.Enabled     = true;
-            CustoItemServiços.Enabled     = true;
+--------------            EquipamentoServiços.Enabled        = true;
+            ValorCompraServiços.Enabled        = true;
+            ValorServiçoServiços.Enabled       = true;
+            EquipNovoServiços.Enabled          = true;
+            EquipUsadoServiços.Enabled         = true;
+            EquipDefeitoServiços.Enabled       = true;
+            NomeItemCustoServiços.Enabled      = true;
+            CustoItemServiços.Enabled          = true;
+            GradeDeBuscaCustosServiços.Enabled = true;
 
 
         }
         private void DesabilitarDadosDeCadastrodeDeServiço()
         {
-            EquipamentoServiços.Enabled  = true;
-            ValorCompraServiços.Enabled  = true;
-            ValorServiçoServiços.Enabled = true;
-            EquipNovoServiços.Enabled    = true;
-            EquipUsadoServiços.Enabled   = true;
-            EquipDefeitoServiços.Enabled = true;
+            EquipamentoServiços.Enabled        = false;
+            ValorCompraServiços.Enabled        = false;
+            ValorServiçoServiços.Enabled       = false;
+            EquipNovoServiços.Enabled          = false;
+            EquipUsadoServiços.Enabled         = false;
+            EquipDefeitoServiços.Enabled       = false;
+            NomeItemCustoServiços.Enabled      = false;
+            CustoItemServiços.Enabled          = false;
+            GradeDeBuscaCustosServiços.Enabled = false;
         }
         private void HabilitarBotaoAtualizarServiços()
         {
@@ -102,13 +105,18 @@ namespace SiehaRC
         }
 
         private void ApagaDadosDeCadastrodeDeServiço()
-        {
-            EquipamentoServiços.Text   = "";
-            ValorCompraServiços.Text   = "";
-            ValorServiçoServiços.Text  = "";
-            EquipNovoServiços.Checked  = false;
-            EquipUsadoServiços.Checked = false;
-            EquipDefeitoServiços.Text  = "";
+        {                                        
+            EquipamentoServiços.Text              = "";
+            ValorCompraServiços.Text              = "";
+            ValorServiçoServiços.Text             = "";
+            EquipNovoServiços.Checked             = false;
+            EquipUsadoServiços.Checked            = false;
+            EquipDefeitoServiços.Text             = "";
+            NomeItemCustoServiços.Text            = "";
+            CustoItemServiços.Text                = ""; 
+            GradeDeBuscaCustosServiços.DataSource = null;
+            GradeDeBuscaCustosServiços.Rows.Clear();
+            GradeDeBuscaCustosServiços.Columns.Clear();
         }
 
         private void BtSalvarCadastro_Click(object sender, EventArgs e)
@@ -757,6 +765,7 @@ namespace SiehaRC
                     if (!EstaNullOuZero(resultadoEquipameto))
                     {
                         HabilitarBotaoAtualizarServiços();
+                        HabilitarBotaoAdicionarCustoServiços();
                         HabilitarDadosDeCadastrodeDeServiço();
                         DesabilitarBotaoNovoServiços();
 
@@ -839,11 +848,14 @@ namespace SiehaRC
 
         private void BtAtualizarServiços_Click(object sender, EventArgs e)
         {
-            string[] CamposAInserir      = new string[] { "idcadastro,equipamento,valorcompra,valorserviço,estado,defeito" };
+            object[][]custos = null;
+            string[] CamposAInserir      = new string[] { "idcadastro,equipamento,valorcompra,valorserviço,estado,defeito",
+                                                          "idserviço,item,custo"};
             string[] ValorCamposAInserir = new string[1];
             string estado;
             bool resultado = false;
             string Existe  = null;
+            List<object[]> lista = new List<object[]>();
 
             if (!String.IsNullOrWhiteSpace(EquipamentoServiços.Text) &&
                !String.IsNullOrWhiteSpace(ValorCompraServiços.Text)  &&
@@ -856,8 +868,9 @@ namespace SiehaRC
 
                 banco.conectar();
 
-                resultado = banco.PesquisaSeExiste("equipamento", "id", IdServiçoServiços.Text);
                 Existe    = "Id";
+                resultado = banco.PesquisaSeExiste("equipamento", Existe, IdServiçoServiços.Text);
+                
                 if (resultado)
                 {
                     if (EquipNovoServiços.Checked)
@@ -876,18 +889,58 @@ namespace SiehaRC
                                                     estado                                      + "','" +
                                                     EquipDefeitoServiços.Text                   + "'";
 
-
-                    resultado = banco.AtualizarOnde("equipamento", CamposAInserir[0], ValorCamposAInserir[0],"id", IdServiçoServiços.Text);
-                    if (resultado)
+                    foreach (DataGridViewRow Row in GradeDeBuscaCustosServiços.Rows)
                     {
-                        MessageBox.Show("Serviço atualizado com sucesso!", @"SiehaR&C", MessageBoxButtons.OK);
-                        ApagaDadosDeCadastrodeDeServiço();
+                        if (!Row.IsNewRow)
+                        {
+                            object[] Condicionamento = new object[] { Row.Cells[0].Value, Row.Cells[1].Value };
+                            lista.Add(Condicionamento);
+                        }
+                    }
+                    custos = lista.ToArray();
+
+                    resultado = banco.DeleteOnde("custos","idserviço",IdServiçoServiços.Text);
+                    if(resultado)
+                    {
+                        resultado = true;
+                        foreach(object[] linhacustos in custos)
+                        {
+                            string valores = "'" + IdServiçoServiços.Text    +"','"+
+                                                   linhacustos[0].ToString() +"','"+
+                                                   linhacustos[1].ToString().Replace(",",".") +"'";
+                            if(!banco.InserirEm("custos",CamposAInserir[1], valores))
+                            {
+                                resultado = false;
+                            }
+                        }
+
+                        if(resultado)
+                        {
+                            resultado = banco.AtualizarOnde("equipamento", CamposAInserir[0], ValorCamposAInserir[0], "id", IdServiçoServiços.Text);
+                            if (resultado)
+                            {
+                                MessageBox.Show("Serviço atualizado com sucesso!", @"SiehaR&C", MessageBoxButtons.OK);
+                                ApagaDadosDeCadastrodeDeServiço();
+                                DesabilitarBotaoAtualizarServiços();
+                                DesabilitarBotaoAdicionarCustoServiços();
+                                DesabilitarDadosDeCadastrodeDeServiço();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Erro ao atualizar Serviço do cliente.", "Erro!", MessageBoxButtons.OK);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Erro ao atualizar algum custo no serviço do cliente.", "Erro!", MessageBoxButtons.OK);
+                        }
+                        
                     }
                     else
                     {
-                        MessageBox.Show("Erro ao atualizar Serviço do cliente.", "Erro!", MessageBoxButtons.OK);
+                        MessageBox.Show("Erro no processo de deletar custo no serviço do cliente.", "Erro!", MessageBoxButtons.OK);
                     }
-
+                    
                 }
                 else
                 {
